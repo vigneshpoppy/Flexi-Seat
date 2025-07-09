@@ -1,0 +1,316 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\data\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\data\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\controllers\\flexiseatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\controllers\\flexiseatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\controllers\\seatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\controllers\\seatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\dto\\seatdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\dto\\seatdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\controllers\\zonecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\controllers\\zonecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\data\\zone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\data\\zone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\data\\seat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\data\\seat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\data\\approle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\data\\approle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\dbcontext\\flexiseatdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\dbcontext\\flexiseatdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\dto\\zonedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\dto\\zonedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\data\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\data\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\dto\\approledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\dto\\approledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|c:\\users\\fdx1yqv\\arun\\hackathon\\flexiseat\\flexiseat\\flexiseat\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{724852E5-6375-4F39-9A56-0F8EF48F6CF5}|FlexiSeat\\FlexiSeat.csproj|solutionrelative:flexiseat\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Seat.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Data\\Seat.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\Data\\Seat.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Data\\Seat.cs",
+              "RelativeToolTip": "FlexiSeat\\Data\\Seat.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwBAAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T10:22:50.14Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Reservation.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Data\\Reservation.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\Data\\Reservation.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Data\\Reservation.cs",
+              "RelativeToolTip": "FlexiSeat\\Data\\Reservation.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAwwB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T11:14:46.562Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FlexiSeatController.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Controllers\\FlexiSeatController.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\Controllers\\FlexiSeatController.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Controllers\\FlexiSeatController.cs",
+              "RelativeToolTip": "FlexiSeat\\Controllers\\FlexiSeatController.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T10:33:08.685Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SeatDTO.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\DTO\\SeatDTO.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\DTO\\SeatDTO.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\DTO\\SeatDTO.cs",
+              "RelativeToolTip": "FlexiSeat\\DTO\\SeatDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T10:28:24.481Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SeatController.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Controllers\\SeatController.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\Controllers\\SeatController.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Controllers\\SeatController.cs",
+              "RelativeToolTip": "FlexiSeat\\Controllers\\SeatController.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAswGsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T10:23:54.24Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ZoneDTO.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\DTO\\ZoneDTO.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\DTO\\ZoneDTO.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\DTO\\ZoneDTO.cs",
+              "RelativeToolTip": "FlexiSeat\\DTO\\ZoneDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T10:18:35.179Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Zone.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Data\\Zone.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\Data\\Zone.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Data\\Zone.cs",
+              "RelativeToolTip": "FlexiSeat\\Data\\Zone.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAgwBoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T10:16:38.941Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ZoneController.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Controllers\\ZoneController.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\Controllers\\ZoneController.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Controllers\\ZoneController.cs",
+              "RelativeToolTip": "FlexiSeat\\Controllers\\ZoneController.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAADwv0IAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T10:14:32.329Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RoleController.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Controllers\\RoleController.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\Controllers\\RoleController.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Controllers\\RoleController.cs",
+              "RelativeToolTip": "FlexiSeat\\Controllers\\RoleController.cs",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAIwEUAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T10:07:06.946Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "UserDTO.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\DTO\\UserDTO.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\DTO\\UserDTO.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\DTO\\UserDTO.cs",
+              "RelativeToolTip": "FlexiSeat\\DTO\\UserDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T09:59:05.117Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "FlexiSeat\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T09:20:35.881Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "FlexiSeatDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\DbContext\\FlexiSeatDbContext.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\DbContext\\FlexiSeatDbContext.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\DbContext\\FlexiSeatDbContext.cs",
+              "RelativeToolTip": "FlexiSeat\\DbContext\\FlexiSeatDbContext.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAmwBAAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T08:57:51.421Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AppRole.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Data\\AppRole.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\Data\\AppRole.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Data\\AppRole.cs",
+              "RelativeToolTip": "FlexiSeat\\Data\\AppRole.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T09:50:23.608Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AppRoleDTO.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\DTO\\AppRoleDTO.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\DTO\\AppRoleDTO.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\DTO\\AppRoleDTO.cs",
+              "RelativeToolTip": "FlexiSeat\\DTO\\AppRoleDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T10:09:20.103Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Data\\User.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\Data\\User.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Data\\User.cs",
+              "RelativeToolTip": "FlexiSeat\\Data\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T08:53:51.341Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "FlexiSeat\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\FDX1YQV\\Arun\\Hackathon\\FlexiSeat\\FlexiSeat\\FlexiSeat\\Controllers\\UserController.cs",
+              "RelativeToolTip": "FlexiSeat\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA4AAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T08:53:35.367Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 257,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
