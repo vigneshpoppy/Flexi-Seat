@@ -1,0 +1,6 @@
+@FlexiSeat_HostAddress = http://localhost:5031
+
+GET {{FlexiSeat_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
