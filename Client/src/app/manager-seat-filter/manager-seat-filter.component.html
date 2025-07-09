@@ -1,0 +1,9 @@
+<div class="manager-filter">
+  <label for="manager-select">Select Manager:</label>
+  <select id="manager-select" [(ngModel)]="selectedManager" (change)="onManagerSelect(selectedManager)">
+    <option value="">-- Choose Manager --</option>
+    <option *ngFor="let manager of managers" [value]="manager.name">
+      {{ manager.name }}
+    </option>
+  </select>
+</div>

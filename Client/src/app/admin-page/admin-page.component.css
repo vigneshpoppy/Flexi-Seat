@@ -1,0 +1,28 @@
+.admin-page-container {
+  padding: 40px;
+  max-width: 600px;
+  margin: 60px auto;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+}
+
+.nav-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  background-color: #2563eb;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.25);
+  transition: all 0.25s ease;
+}
+
+.nav-button:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.05);
+}

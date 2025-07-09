@@ -1,0 +1,78 @@
+.manager-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  margin: 30px auto;
+  max-width: 420px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(240, 240, 240, 0.5));
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-family: 'Segoe UI', sans-serif;
+
+  /* ✨ 3D Elevation */
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 12px 28px rgba(0, 0, 0, 0.1),
+    inset 0 1px 3px rgba(255, 255, 255, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeInUp 0.6s ease both;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 12px rgba(0, 0, 0, 0.15),
+      0 16px 32px rgba(0, 0, 0, 0.1),
+      inset 0 1px 3px rgba(255, 255, 255, 0.4);
+  }
+}
+
+.manager-filter label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* 🟡 Embossed Dropdown Style */
+.manager-filter select {
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: linear-gradient(to bottom, #ffffff, #f9fafb);
+  color: #1f2937;
+  box-shadow:
+    inset 2px 2px 6px rgba(0, 0, 0, 0.05),
+    inset -2px -2px 6px rgba(255, 255, 255, 0.7),
+    0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+
+  &:hover {
+    border-color: #60a5fa;
+    box-shadow:
+      0 0 6px rgba(96, 165, 250, 0.3),
+      inset 2px 2px 4px rgba(0, 0, 0, 0.05),
+      inset -2px -2px 4px rgba(255, 255, 255, 0.6);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow:
+      0 0 0 4px rgba(59, 130, 246, 0.25),
+      inset 0 0 3px rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* Optional Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,80 @@
+<!-- <div class="seat-admin">
+  <h2>Seat Management</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Row</th>
+        <th>Number</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let seat of seats">
+        <td>{{ seat.id }}</td>
+        <td>{{ seat.row }}</td>
+        <td>{{ seat.number }}</td>
+        <td>{{ seat.status }}</td>
+        <td>
+          <button (click)="editSeat(seat)">Edit</button>
+          <button (click)="deleteSeat(seat.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table> -->
+
+  <!-- Edit Modal -->
+  <!-- <div class="edit-modal" *ngIf="selectedSeat">
+    <h3>Edit Seat: {{ selectedSeat.id }}</h3>
+    <label>Status:
+      <select [(ngModel)]="selectedSeat.status">
+        <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+      </select>
+    </label>
+    <div class="modal-actions">
+      <button (click)="updateSeat()">Update</button>
+      <button (click)="cancelEdit()">Cancel</button>
+    </div>
+  </div>
+</div> -->
+
+
+
+<h2>Seat Management</h2>
+
+<!-- Search -->
+<div class="section">
+  <input [(ngModel)]="searchId" placeholder="Search by Seat ID (e.g. A20C1)" />
+  <button (click)="onSearch()">Search</button>
+</div>
+
+<!-- Result -->
+<div class="section" *ngIf="filteredSeats.length">
+  <h3>Search Result</h3>
+  <div *ngFor="let seat of filteredSeats" class="seat-entry">
+    <strong>{{ seat.id }}</strong> (Zone: {{ seat.zone }})
+    <select [(ngModel)]="seat.status">
+      <option value="available">Available</option>
+      <option value="booked">Booked</option>
+      <option value="confirmed">Confirmed</option>
+    </select>
+    <button (click)="saveSeat(seat)">Save</button>
+    <button (click)="deleteSeat(seat)">Delete</button>
+  </div>
+</div>
+
+<!-- Add New Seat -->
+<div class="section">
+  <h3>Add New Seat</h3>
+  <input [(ngModel)]="newSeat.id" placeholder="Seat ID (e.g. A20C31)" />
+  <input [(ngModel)]="newSeat.zone" placeholder="Zone (e.g. A)" />
+ 
+  <select [(ngModel)]="newSeat.status">
+    <option value="available">Available</option>
+    <option value="booked">Booked</option>
+    <option value="confirmed">Confirmed</option>
+  </select>
+  <button (click)="addSeat()">Add</button>
+</div>

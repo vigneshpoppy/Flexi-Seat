@@ -1,0 +1,30 @@
+ <div class="seat-map">
+    <div *ngFor="let row of chunkedSeatRows" class="seat-row">
+      <div *ngFor="let seat of row"
+           [ngClass]="seat.status"
+           (click)="onSeatClick(seat)"
+           class="seat  chair">
+        {{ seat.id }} 
+      </div>
+    </div>
+  </div>
+  
+  <div class="legend">
+    <div class="legend-item">
+      <div class="seat available"></div>
+      <span>Available</span>
+    </div>
+    <div class="legend-item">
+      <div class="seat booked"></div>
+      <span>Booked</span>
+    </div>
+    <div class="legend-item">
+      <div class="seat confirmed"></div>
+      <span>Confirmed</span>
+    </div>
+    <div class="legend-item">
+      <div class="seat checked"></div>
+      <span>Checked-In</span>
+    </div>
+  </div>
+  

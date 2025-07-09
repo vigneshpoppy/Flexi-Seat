@@ -1,0 +1,15 @@
+<header class="app-header">
+  <img src="assets/ups-logo.png" alt="UPS Logo" class="logo" />
+  <h1 class="title">Flexi Seat Booking</h1>
+</header>
+
+<!-- <app-seat-admin></app-seat-admin> -->
+<div class="section fade-section">
+  <app-manager-seat-filter (filterRegions)="applyRegionFilter($event)"(manager)="CheckManager($event)"></app-manager-seat-filter>
+  <app-seat-map
+  *ngIf="isManagerSelected"
+    [seatRows]="filteredSeatData"
+    (seatSelected)="onSeatSelected($event)">
+  </app-seat-map>
+</div>
+

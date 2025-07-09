@@ -1,0 +1,106 @@
+.seat-map {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.seat-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.seat {
+  width: 60px;
+  height: 35px;
+  border-radius: 6px 6px 4px 4px;
+  text-align: center;
+  line-height: 35px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  font-size: 13px;
+  background-color: white;
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.seat:hover {
+  transform: scale(1.05);
+}
+
+/* Chair style with legs */
+.chair::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 4px;
+  background: #555;
+  border-radius: 2px;
+}
+
+/* Seat status colors */
+.available {
+  border-color: #a7f3d0; 
+  background-color: #ecfdf5;
+  color: #047857;
+}
+.booked {
+  border-color: #d1d5db;
+  background-color: #e5e7eb;
+  color: #4b5563;
+  cursor: not-allowed;
+}
+.confirmed {
+  border-color: #fde68a;
+  background-color: #fef9c3;
+  color: #92400e;
+}
+.checked-in {
+  border-color: #fca5a5;
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.checked{
+  border-color: #fca5a5;
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+/* Legend */
+.legend {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+}
+.legend-item .seat {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  line-height: 20px;
+  text-align: center;
+}

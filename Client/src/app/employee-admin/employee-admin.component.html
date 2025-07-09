@@ -1,0 +1,70 @@
+
+<h2>Employee Management</h2>
+
+<!-- 🔍 Search -->
+<div class="section">
+  <input [(ngModel)]="searchId" placeholder="Search by Employee ID" />
+  <button (click)="onSearch()">Search</button>
+</div>
+
+<!-- 🔎 Result -->
+
+<div class="section" *ngIf="filteredEmployees.length">
+  <h3 class="title">Search Result</h3>
+
+  <div *ngFor="let emp of filteredEmployees" class="employee-card">
+    <div class="row">
+      <div class="field"><strong>{{ emp.id }}</strong>{{ emp.name }}</div>
+      <div class="field">
+        <label>Position</label>
+        <input [(ngModel)]="emp.position" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Manager</label>
+        <input [(ngModel)]="emp.manager" />
+      </div>
+      <div class="field">
+        <label>Location</label>
+        <input [(ngModel)]="emp.location" />
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="btn save" (click)="saveEmployee(emp)">Save</button>
+      <button class="btn delete" (click)="deleteEmployee(emp)">Delete</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ➕ Add New -->
+<div class="section">
+  <h3>Add New Employee</h3>
+  <input [(ngModel)]="newEmployee.id" placeholder="Employee ID" />
+  <input [(ngModel)]="newEmployee.name" placeholder="Name" />
+   <select [(ngModel)]="newEmployee.position">
+    <option value="Associate Application Developer">AAD</option>
+    <option value="Application Developer">AD</option>
+    <option value="Intermediate Application Developer">IAD</option>
+    <option value="Senior Application Developer">SAD</option>
+    <option value="Associate Software Quality">ASQ</option>
+    <option value="Software Quality">SQ</option>
+    <option value="Intermediate Software Quality">ISQ</option>
+    <option value="Senior Software Quality">SSQ</option>
+    <option value="Lead Application Developer">LAD</option>
+    <option value="Application Developement Manager">ADM</option>
+    <option value="Applications Architect">Applications Architect</option>
+    <option value="Director">Director</option>
+    <option *ngif="isAdmin" value="Admin">Admin</option>
+    
+
+
+  </select>
+  
+  <input [(ngModel)]="newEmployee.manager" placeholder="Manager" />
+  <input [(ngModel)]="newEmployee.location" placeholder="Location" />
+  <button (click)="addEmployee()">Add</button>
+</div>
