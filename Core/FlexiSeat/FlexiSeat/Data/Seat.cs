@@ -8,6 +8,8 @@ namespace FlexiSeat.Data
         [Key]
         public int ID { get; set; }
 
+        public string Number { get; set; }
+
         // Foreign key to Zone entity
         public int ZoneId { get; set; }
 

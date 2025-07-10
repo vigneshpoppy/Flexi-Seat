@@ -1,4 +1,6 @@
-﻿namespace FlexiSeat.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FlexiSeat.DTO
 {
     public class AppRoleDTO
     {
