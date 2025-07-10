@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace FlexiSeat.Data
@@ -16,7 +16,7 @@ namespace FlexiSeat.Data
         public string? Description { get; set; }
 
         [MaxLength(150)]
-        public string LocationName { get; set; }
+        public string? LocationName { get; set; }
 
         public bool IsActive { get; set; }
 

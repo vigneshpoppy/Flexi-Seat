@@ -95,6 +95,15 @@ namespace FlexiSeat.Controllers
       if (role == null)
         return NotFound($"Role with ID '{id}' not found.");
 
+      //Check if role name is not duplicate
+      var roleNameDuplicate = await _context.Roles
+                .FirstOrDefaultAsync(r => r.Name == dto.Name && id != r.ID);
+
+      if (roleNameDuplicate != null)
+      {
+        return Conflict(new { message = "Same role name already exists" });
+      }
+
       //Update to DB
       role.Name = dto.Name.ToUpper();
       role.Description = dto.Description;
