@@ -59,10 +59,7 @@
     <option value="Applications Architect">Applications Architect</option>
     <option value="Director">Director</option>
     <option *ngif="isAdmin" value="Admin">Admin</option>
-    
-
-
-  </select>
+      </select>
   
   <input [(ngModel)]="newEmployee.manager" placeholder="Manager" />
   <input [(ngModel)]="newEmployee.location" placeholder="Location" />
