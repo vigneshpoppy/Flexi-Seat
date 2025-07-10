@@ -41,7 +41,12 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Ignore build artifacts
+# Ignore build artifacts from C#
 bin/
 obj/
+
+# Ignore visual studio files
 .vs/
+
+#other files
+nuget.config
