@@ -12,8 +12,8 @@ namespace FlexiSeat.Controllers
     public class ZoneController : ControllerBase
     {
         private readonly FlexiSeatDbContext _context;
-        private readonly ILogger<FlexiSeatController> _logger;
-        public ZoneController(ILogger<FlexiSeatController> logger, FlexiSeatDbContext context)
+        private readonly ILogger<ZoneController> _logger;
+        public ZoneController(ILogger<ZoneController> logger, FlexiSeatDbContext context)
         {
             _logger = logger;
             _context = context;
@@ -69,6 +69,13 @@ namespace FlexiSeat.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var existingZone = await _context.Zones.FirstOrDefaultAsync(r => r.Name == dto.Name && r.IsActive == true && r.LocationName == dto.LocationName);
+
+            if(existingZone != null)
+            {
+                return Conflict(new { message = dto.Name.ToUpper() + " zone already exists for the location" });
+            }
+
             var zone = new Zone
             {
                 Name = dto.Name,
@@ -94,6 +101,14 @@ namespace FlexiSeat.Controllers
             var zone = await _context.Zones.FindAsync(id);
             if (zone == null)
                 return NotFound($"Zone with ID '{id}' not found.");
+
+            var zoneNameDuplicate = await _context.Zones
+                      .FirstOrDefaultAsync(r => r.Name == dto.Name && r.LocationName != dto.LocationName && id != r.ID);
+
+            if (zoneNameDuplicate != null)
+            {
+                return Conflict(new { message = "Same zone name already exists in the location" });
+            }
 
             zone.Name = dto.Name;
             zone.Description = dto.Description;

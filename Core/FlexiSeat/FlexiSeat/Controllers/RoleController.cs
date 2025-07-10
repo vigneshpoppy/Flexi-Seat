@@ -12,8 +12,8 @@ namespace FlexiSeat.Controllers
     public class RoleController : ControllerBase
     {
         private readonly FlexiSeatDbContext _context;
-        private readonly ILogger<FlexiSeatController> _logger;
-        public RoleController(ILogger<FlexiSeatController> logger, FlexiSeatDbContext context)
+        private readonly ILogger<RoleController> _logger;
+        public RoleController(ILogger<RoleController> logger, FlexiSeatDbContext context)
         {
             _logger = logger;
             _context = context;
@@ -54,27 +54,34 @@ namespace FlexiSeat.Controllers
 
             return Ok(role);
         }
+
         [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole([FromBody] AppRoleDTO dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var role = new AppRole
+            var role = await _context.Roles.FirstOrDefaultAsync(r => r.Name == dto.Name && r.IsActive == true);
+
+            if(role != null)
+            {
+                return Conflict(new { message = dto.Name.ToUpper() +" role already exists." });
+            }
+            
+            var newRole = new AppRole
             {
                 Name = dto.Name,
                 Description = dto.Description,
-                IsActive = dto.IsActive
+                IsActive = true
             };
 
-            _context.Roles.Add(role);
+            _context.Roles.Add(newRole);
             await _context.SaveChangesAsync();
 
-            // Return 201 Created with route to GetRoleById
-            return CreatedAtAction(nameof(GetRoleById), new { id = role.ID }, role);
+            return CreatedAtAction(nameof(GetRoleById), new { id = newRole.ID }, newRole);
         }
 
-        [HttpPut("UpdateRole/{id}")]
+        [HttpPatch("UpdateRole/{id}")]
         public async Task<IActionResult> UpdateRole(int id, [FromBody] AppRoleDTO dto)
         {
             if (!ModelState.IsValid)
@@ -91,7 +98,7 @@ namespace FlexiSeat.Controllers
             _context.Roles.Update(role);
             await _context.SaveChangesAsync();
 
-            return NoContent(); // 204 No Content on successful update
+            return NoContent();
         }
 
         [HttpDelete("DeleteRole/{id}")]

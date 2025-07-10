@@ -1,5 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using FlexiSeat.Data;
+using Microsoft.Extensions.Logging;
 
 namespace FlexiSeat.Helper
 {
@@ -15,6 +17,35 @@ namespace FlexiSeat.Helper
         public static bool VerifyPassword(string password, string hash)
         {
             return HashPassword(password) == hash;
+        }
+
+        public static string Generate(int length = 12)
+        {
+          string Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+          string Lower = "abcdefghijklmnopqrstuvwxyz";
+          string Digits = "0123456789";
+          string Special = "!@#$%^&*_-+=<>?";
+
+
+            if (length < 8)
+                throw new ArgumentException("Password length should be at least 8 characters.");
+
+            string allChars = Upper + Lower + Digits + Special;
+            var password = new StringBuilder();
+            var randomBytes = new byte[length];
+
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomBytes);
+            }
+
+            for (int i = 0; i < length; i++)
+            {
+                var index = randomBytes[i] % allChars.Length;
+                password.Append(allChars[index]);
+            }
+
+            return password.ToString();
         }
     }
 

@@ -12,8 +12,8 @@ namespace FlexiSeat.Controllers
     public class SeatController : ControllerBase
     {
         private readonly FlexiSeatDbContext _context;
-        private readonly ILogger<FlexiSeatController> _logger;
-        public SeatController(ILogger<FlexiSeatController> logger, FlexiSeatDbContext context)
+        private readonly ILogger<SeatController> _logger;
+        public SeatController(ILogger<SeatController> logger, FlexiSeatDbContext context)
         {
             _logger = logger;
             _context = context;
@@ -27,6 +27,7 @@ namespace FlexiSeat.Controllers
                 .Select(s => new SeatDTO
                 {
                     ID = s.ID,
+                    Number = s.Number,
                     ZoneId = s.ZoneId,
                     IsActive = s.IsActive,
                     ZoneName = s.Zone.Name
@@ -45,6 +46,7 @@ namespace FlexiSeat.Controllers
                 .Select(s => new SeatDTO
                 {
                     ID = s.ID,
+                    Number= s.Number,
                     ZoneId = s.ZoneId,
                     IsActive = s.IsActive,
                     ZoneName = s.Zone.Name
@@ -63,8 +65,16 @@ namespace FlexiSeat.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var existingSeat = await _context.Seats.FirstOrDefaultAsync(r => r.Number == dto.Number && r.IsActive == true && r.ZoneId == dto.ZoneId);
+
+            if (existingSeat != null)
+            {
+                return Conflict(new { message = "Same seat number already exists for the zone" });
+            }
+
             var seat = new Seat
             {
+                Number = dto.Number,
                 ZoneId = dto.ZoneId,
                 IsActive = dto.IsActive
             };
@@ -85,6 +95,14 @@ namespace FlexiSeat.Controllers
             if (seat == null)
                 return NotFound($"Seat with ID '{id}' not found.");
 
+            var existingSeat = await _context.Seats.FirstOrDefaultAsync(r => r.Number == dto.Number && r.IsActive == true && r.ZoneId == dto.ZoneId && id != r.ID);
+
+            if (existingSeat != null)
+            {
+                return Conflict(new { message = "Same seat number already exists for the zone" });
+            }
+
+            seat.Number = dto.Number;
             seat.ZoneId = dto.ZoneId;
             seat.IsActive = dto.IsActive;
 
