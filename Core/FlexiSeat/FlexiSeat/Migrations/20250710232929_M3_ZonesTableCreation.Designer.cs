@@ -3,6 +3,7 @@ using FlexiSeat.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlexiSeat.Migrations
 {
     [DbContext(typeof(FlexiSeatDbContext))]
-    partial class FlexiSeatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250710232929_M3_ZonesTableCreation")]
+    partial class M3_ZonesTableCreation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,35 +43,6 @@ namespace FlexiSeat.Migrations
                         .IsUnique();
 
                     b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("FlexiSeat.Data.Seat", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<int>("ZoneId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("Number")
-                        .IsUnique();
-
-                    b.HasIndex("ZoneId");
-
-                    b.ToTable("Seats");
                 });
 
             modelBuilder.Entity("FlexiSeat.Data.User", b =>
@@ -114,21 +88,6 @@ namespace FlexiSeat.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("FlexiSeat.Data.UserLogin", b =>
-                {
-                    b.Property<string>("ADID")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ADID");
-
-                    b.ToTable("UserLogins");
-                });
-
             modelBuilder.Entity("FlexiSeat.Data.Zone", b =>
                 {
                     b.Property<int>("ID")
@@ -160,17 +119,6 @@ namespace FlexiSeat.Migrations
                         .IsUnique();
 
                     b.ToTable("Zones");
-                });
-
-            modelBuilder.Entity("FlexiSeat.Data.Seat", b =>
-                {
-                    b.HasOne("FlexiSeat.Data.Zone", "Zone")
-                        .WithMany()
-                        .HasForeignKey("ZoneId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Zone");
                 });
 
             modelBuilder.Entity("FlexiSeat.Data.User", b =>
