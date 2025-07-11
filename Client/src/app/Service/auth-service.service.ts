@@ -20,7 +20,7 @@ export class AuthServiceService {
       username:username,
       password:password
     }
-    const role="Admin"
+    const role="admin"
     this.setRoles(role);
      var response= this.http.post('https://api.example.com/data', payload);
      
@@ -48,7 +48,8 @@ export class AuthServiceService {
 
 
   getToken(): string | null {
-  return localStorage.getItem(this.tokenKey);
+  //return localStorage.getItem(this.tokenKey);
+  return "token";
 }
 
   hasRole(role: string): boolean {
@@ -56,23 +57,24 @@ export class AuthServiceService {
   }
 
   isTokenExpired(): boolean {
-    const token = this.getToken();
-  if (!token) return true;
+  //   const token = this.getToken();
+  // if (!token) return true;
 
-  try {
-    const decoded = jwtDecode<JwtPayload>(token);
+  // try {
+  //   const decoded = jwtDecode<JwtPayload>(token);
 
     
-    if (!decoded.exp) return true;
+  //   if (!decoded.exp) return true;
 
-    const now = Date.now().valueOf() / 1000;
-    return decoded.exp < now;
-  } catch (error) {
-    return true; 
+  //   const now = Date.now().valueOf() / 1000;
+  //   return decoded.exp < now;
+  // } catch (error) {
+  //   return true; 
+  return false
   }
-}
 
  isAuthenticated(): boolean {
+  console.log(!!this.getToken());
   return !!this.getToken() && !this.isTokenExpired();
 }
 

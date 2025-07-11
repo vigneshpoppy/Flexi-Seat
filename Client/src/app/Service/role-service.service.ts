@@ -11,29 +11,29 @@ export class RoleServiceService {
 
 constructor(private http:HttpClient ) {}
 
-localBaseUrl="http://localhost:39752/api/Role/"
+localBaseUrl="http://localhost:39752/api/Roles/"
   getRoleAllData(): Observable<any> {
-    return this.http.get(this.localBaseUrl+"GetAllRoles");
+    return this.http.get(this.localBaseUrl+"ALl");
   }
 
 
   getRoleByID(id:string): Observable<any> {
-    return this.http.get(`${this.localBaseUrl}GetRoleById/${id}`);
+    return this.http.get(`${this.localBaseUrl}${id}`);
   }
 
 
 
   postRoleData(payload: Role): Observable<any> {
-    return this.http.post(`${this.localBaseUrl}CreateRole`, payload);
+    return this.http.post(`${this.localBaseUrl}Create`, payload);
   }
 
   
 updateRole(id: number, payload: Role): Observable<any> {
-  return this.http.patch(`${this.localBaseUrl}UpdateRole/${id}`, payload);
+  return this.http.patch(`${this.localBaseUrl}Update/${id}`, payload);
 }
 
 
 deleteRole(id: number): Observable<any> {
-  return this.http.delete(`${this.localBaseUrl}DeleteRole/${id}`);
+  return this.http.delete(`${this.localBaseUrl}${id}`);
 }
 }

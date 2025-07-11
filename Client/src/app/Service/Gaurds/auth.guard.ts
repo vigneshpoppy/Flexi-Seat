@@ -19,6 +19,9 @@ export class  authGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
     const expectedRoles = route.data['roles'] as string[]; // e.g., ['admin']
     const userRole = this.authService.getRoles();
+    console.log(userRole);
+    
+    console.log("Expected: " +expectedRoles);
 
     if (!this.authService.isAuthenticated()) {
       return this.router.createUrlTree(['/login']);

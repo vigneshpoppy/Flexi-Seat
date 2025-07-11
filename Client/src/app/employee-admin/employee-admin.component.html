@@ -14,21 +14,29 @@
 
   <div *ngFor="let emp of filteredEmployees" class="employee-card">
     <div class="row">
-      <div class="field"><strong>{{ emp.id }}</strong>{{ emp.name }}</div>
+      <div class="field"><strong>{{ emp.adid }}</strong>{{ emp.name }}</div>
       <div class="field">
         <label>Position</label>
-        <input [(ngModel)]="emp.position" />
+        <input [(ngModel)]="emp.designation" />
+      </div>
+      <div class="field">
+        <label>BadgeId</label>
+        <input [(ngModel)]="emp.badgeId" />
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <input [(ngModel)]="emp.roleId" />
       </div>
     </div>
 
     <div class="row">
       <div class="field">
         <label>Manager</label>
-        <input [(ngModel)]="emp.manager" />
+        <input [(ngModel)]="emp.managerADID" />
       </div>
       <div class="field">
-        <label>Location</label>
-        <input [(ngModel)]="emp.location" />
+        <label>Lead</label>
+        <input [(ngModel)]="emp.leadADID" />
       </div>
     </div>
 
@@ -43,9 +51,10 @@
 <!-- ➕ Add New -->
 <div class="section">
   <h3>Add New Employee</h3>
-  <input [(ngModel)]="newEmployee.id" placeholder="Employee ID" />
+  <input [(ngModel)]="newEmployee.adid" placeholder="Employee ID" />
   <input [(ngModel)]="newEmployee.name" placeholder="Name" />
-   <select [(ngModel)]="newEmployee.position">
+   <select [(ngModel)]="newEmployee.designation">
+      <option value="" disabled selected>Select Designation</option>
     <option value="Associate Application Developer">AAD</option>
     <option value="Application Developer">AD</option>
     <option value="Intermediate Application Developer">IAD</option>
@@ -60,8 +69,14 @@
     <option value="Director">Director</option>
     <option *ngif="isAdmin" value="Admin">Admin</option>
       </select>
-  
-  <input [(ngModel)]="newEmployee.manager" placeholder="Manager" />
-  <input [(ngModel)]="newEmployee.location" placeholder="Location" />
+   <input [(ngModel)]="newEmployee.badgeId" placeholder="Badge ID" />
+     
+      <select [(ngModel)]="newEmployee.roleId" >
+         <option [value]="null" disabled>Select Role</option>
+        <option *ngFor="let role of allRoles" [value]="role.id">{{ role.name }}</option>
+      </select>
+
+  <input [(ngModel)]="newEmployee.leadADID" placeholder="Manager" />
+  <input [(ngModel)]="newEmployee.managerADID" placeholder="Lead" />
   <button (click)="addEmployee()">Add</button>
 </div>

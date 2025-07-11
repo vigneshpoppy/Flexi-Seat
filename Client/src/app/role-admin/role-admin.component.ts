@@ -110,7 +110,7 @@ export class RoleAdminComponent  implements OnInit{
       
       this.roleService.postRoleData({...this.newRole}).subscribe({
         next :result=>{
-         this.notify.showSuccess("Role Deleted")
+         this.notify.showSuccess("Role Added")
            this.newRole = { id: 0, name: '', description: '',isActive:true };
          this.GetAllRoles();
         },
