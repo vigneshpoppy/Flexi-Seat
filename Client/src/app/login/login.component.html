@@ -1,0 +1,46 @@
+<header class="app-header">
+  <img src="assets/ups-logo.png" alt="UPS Logo" class="logo" />
+  <h1 class="title">Flexi Seat Booking</h1>
+</header>
+
+<h2>🔐 Login</h2>
+
+<!-- 🧾 Login Form -->
+<div class="section">
+  <!-- 👤 Username Field -->
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input
+      id="username"
+      type="text"
+      [(ngModel)]="username"
+      placeholder="Enter Username"
+    />
+  </div>
+
+  <!-- 🔒 Password Field -->
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input
+      id="password"
+      type="password"
+      [(ngModel)]="password"
+      placeholder="Enter Password"
+    />
+  </div>
+
+  <!-- 🔴 Error -->
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <!-- ✅ Submit Button in its own row -->
+  <div class="form-group">
+    <button (click)="login()">Submit</button>
+  </div>
+</div>
+
+<!-- 🔗 Links -->
+<div class="section link-section">
+  <a routerLink="/change-password">🔁 Change Password</a>
+  &nbsp;|&nbsp;
+  <a routerLink="/reset-password">❓ Reset Password</a>
+</div>
