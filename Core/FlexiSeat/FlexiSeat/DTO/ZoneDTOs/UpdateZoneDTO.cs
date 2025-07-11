@@ -9,8 +9,8 @@ namespace FlexiSeat.DTO.ZoneDTOs
 
           [StringLength(100, ErrorMessage = "Description cannot exceed 100 characters.")]
           public string? Description { get; set; }
-
-          public string? ManagerADID { get; set; }
           public bool? IsActive { get; set; }
-    }
+
+
+  }
 }

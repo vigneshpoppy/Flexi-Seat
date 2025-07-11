@@ -1,4 +1,5 @@
-﻿using FlexiSeat.Data;
+using System.Data;
+using FlexiSeat.Data;
 using FlexiSeat.DbContext;
 using FlexiSeat.DTO.RoleDTOs;
 using Microsoft.AspNetCore.Http;
@@ -39,7 +40,9 @@ namespace FlexiSeat.Controllers
             // Step 4: Create and save the new role
             var role = new Role
             {
-                Name = dto.Name // the setter will normalize (Trim + ToUpper)
+                Name = dto.Name,
+                Description = dto.Description,
+                IsActive = true// the setter will normalize (Trim + ToUpper)
             };
 
             _context.Roles.Add(role);
@@ -62,7 +65,9 @@ namespace FlexiSeat.Controllers
             var dto = new GetRoleDTO
             {
                 Id = role.Id,
-                Name = role.Name
+                Name = role.Name,
+                Description = role.Description,
+                IsActive = role.IsActive
             };
 
             return Ok(dto);
@@ -75,7 +80,9 @@ namespace FlexiSeat.Controllers
                 .Select(r => new GetRoleDTO
                 {
                     Id = r.Id,
-                    Name = r.Name
+                    Name = r.Name,
+                    Description = r.Description,
+                    IsActive = r.IsActive
                 })
                 .ToListAsync();
 
@@ -110,6 +117,14 @@ namespace FlexiSeat.Controllers
 
             // 5. Update and save
             role.Name = dto.Name;  // setter will normalize
+                                   // Update optional fields if provided
+            if (!string.IsNullOrWhiteSpace(dto.Description))
+              role.Description = dto.Description;
+
+            // IsActive is non-nullable, so always update
+            if (dto.IsActive != null && (role.IsActive != dto.IsActive))
+              role.IsActive = !role.IsActive;
+
             await _context.SaveChangesAsync();
 
             // 6. Return success
