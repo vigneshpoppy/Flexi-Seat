@@ -35,8 +35,7 @@ namespace FlexiSeat.Controllers
             {
               Name = dto.Name,
               Description = dto.Description,
-              IsActive = true,
-              ManagerADID = dto.ManagerADID
+              IsActive = true
             };
 
             _context.Zones.Add(zone);
@@ -47,8 +46,7 @@ namespace FlexiSeat.Controllers
               zone.ID,
               zone.Name,
               zone.Description,
-              zone.IsActive,
-              zone.ManagerADID
+              zone.IsActive
             });
         }
 
@@ -56,7 +54,6 @@ namespace FlexiSeat.Controllers
         public async Task<IActionResult> GetZoneById(int id)
         {
             var zone = await _context.Zones
-              .Include(z => z.Manager)
               .FirstOrDefaultAsync(z => z.ID == id);
 
             if (zone == null)
@@ -67,9 +64,7 @@ namespace FlexiSeat.Controllers
               ID = id,
               Name = zone.Name,
               Description = zone.Description,
-              IsActive = zone.IsActive,
-              ManagerADID = zone.ManagerADID,
-              ManagerName = zone.Manager?.Name
+              IsActive = zone.IsActive
             };
 
             return Ok(dto);
@@ -79,7 +74,6 @@ namespace FlexiSeat.Controllers
         public async Task<IActionResult> GetAllZones()
         {
               var zones = await _context.Zones
-                .Include(z => z.Manager)
                 .ToListAsync();
 
               var result = zones.Select(zone => new GetZoneDTO
@@ -87,9 +81,7 @@ namespace FlexiSeat.Controllers
                 ID = zone.ID,
                 Name = zone.Name,
                 Description = zone.Description,
-                IsActive = zone.IsActive,
-                ManagerADID = zone.ManagerADID,
-                ManagerName = zone.Manager?.Name
+                IsActive = zone.IsActive
               });
 
               return Ok(result);
@@ -121,11 +113,8 @@ namespace FlexiSeat.Controllers
             if (!string.IsNullOrWhiteSpace(dto.Description))
               zone.Description = dto.Description;
 
-            if (!string.IsNullOrWhiteSpace(dto.ManagerADID))
-              zone.ManagerADID = dto.ManagerADID?.Trim().ToUpper();
-
             // IsActive is non-nullable, so always update
-            if(dto.IsActive != null && (zone.IsActive != dto.IsActive))
+            if (dto.IsActive != null && (zone.IsActive != dto.IsActive))
               zone.IsActive = !zone.IsActive;
 
             await _context.SaveChangesAsync();

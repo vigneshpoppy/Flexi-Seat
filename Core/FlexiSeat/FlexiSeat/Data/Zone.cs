@@ -27,10 +27,5 @@ namespace FlexiSeat.Data
 
         [Required]
         public bool IsActive { get; set; }
-
-        public string? ManagerADID { get; set; }
-
-        [ForeignKey("ManagerADID")]
-        public User? Manager { get; set; }
     }
 }

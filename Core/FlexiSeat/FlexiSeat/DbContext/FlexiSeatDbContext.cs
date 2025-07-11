@@ -13,8 +13,10 @@ namespace FlexiSeat.DbContext
         public DbSet<Zone> Zones { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<UserLogin> UserLogins { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<OrgSeatPool> OrgSeatPools { get; set; }
 
-        public FlexiSeatDbContext(DbContextOptions<FlexiSeatDbContext> options) : base(options) { }
+    public FlexiSeatDbContext(DbContextOptions<FlexiSeatDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,7 +49,26 @@ namespace FlexiSeat.DbContext
              .HasIndex(c => c.Number)
              .IsUnique();
 
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Reservation>()
+              .HasOne(r => r.User)
+              .WithMany()
+              .HasForeignKey(r => r.UserADID)
+              .OnDelete(DeleteBehavior.Restrict); // or DeleteBehavior.NoAction
+
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.ReservedBy)
+                .WithMany()
+                .HasForeignKey(r => r.ReservedByADID)
+                .OnDelete(DeleteBehavior.Restrict); // or DeleteBehavior.NoAction
+
+            // Seat FK can keep cascade delete if you want:
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.Seat)
+                .WithMany()
+                .HasForeignKey(r => r.SeatID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+      base.OnModelCreating(modelBuilder);
         }
 
     }
