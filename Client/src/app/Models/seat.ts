@@ -7,8 +7,23 @@ export interface Seat {
 export type SeatStatus = 'available' | 'booked' | 'confirmed' | 'checked-in';
 
 export interface NewSeat {
-  id: string;            // e.g., A20C1
-  zone: string;           // Region like 'A'
+  number: string;            // e.g., A20C1
+  zoneId: string;           // Region like 'A'
       
-  status: SeatStatus;    // 'available' | 'booked' | 'confirmed' | 'checked-in'
+  isActive: boolean;    // 'available' | 'booked' | 'confirmed' | 'checked-in'
+}
+
+
+export interface Seatpostpayload{
+
+  number: string;
+  zoneId: number;
+
+}
+
+
+export interface SeatPatchpayload {
+  number: string;
+  zoneId: number;
+  isActive :boolean
 }

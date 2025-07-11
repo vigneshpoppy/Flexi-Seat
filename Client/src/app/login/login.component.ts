@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthServiceService } from '../Service/auth-service.service';
 
 @Component({
   selector: 'app-login',
@@ -12,10 +13,12 @@ export class LoginComponent {
   password: string = '';
   error: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private authservice:AuthServiceService) {}
 
   login() {
     if (this.username === 'admin' && this.password === 'admin') {
+
+      this.authservice.Login(this.username,this.password);
       this.router.navigate(['/seat']);
     } else {
       this.error = 'Invalid username or password';

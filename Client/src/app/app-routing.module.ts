@@ -11,17 +11,23 @@ import { AppComponent } from './app.component';
 import { CheckinClientComponent } from './checkin-client/checkin-client.component';
 import { RoleAdminComponent } from './role-admin/role-admin.component';
 import { ZoneAdminComponent } from './zone-admin/zone-admin.component';
+import { authGuard } from './Service/Gaurds/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  // Default route → login
   { path: 'login', component: LoginComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'seatmanagement', component: SeatAdminComponent },
-  { path: 'rolemanagement', component: RoleAdminComponent },
-  { path: 'zonemanagement', component: ZoneAdminComponent },
-  { path: 'admin', component: AdminPageComponent },
-  { path: 'employeemanagement', component: EmployeeAdminComponent },
+  { path: 'seatmanagement', component: SeatAdminComponent  , canActivate: [authGuard],
+    data: { roles: ['admin'] }},
+  { path: 'rolemanagement', component: RoleAdminComponent , canActivate: [authGuard],
+    data: { roles: ['admin'] }},
+  { path: 'zonemanagement', component: ZoneAdminComponent , canActivate: [authGuard],
+    data: { roles: ['admin'] }},
+  { path: 'admin', component: AdminPageComponent , canActivate: [authGuard],
+    data: { roles: ['admin'] }},
+  { path: 'employeemanagement', component: EmployeeAdminComponent , canActivate: [authGuard],
+    data: { roles: ['admin','supervisor-1','supervisor-2'] }},
   { path: 'seat', component: AppComponent },
   { path: 'checkin-client', component: CheckinClientComponent },
   { path: '**', redirectTo: '/login' }  // Wildcard to catch undefined routes

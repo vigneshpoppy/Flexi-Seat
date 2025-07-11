@@ -54,8 +54,14 @@
 <div class="section" *ngIf="filteredSeats.length">
   <h3>Search Result</h3>
   <div *ngFor="let seat of filteredSeats" class="seat-entry">
-    <strong>{{ seat.id }}</strong> (Zone: {{ seat.zone }})
-    <select [(ngModel)]="seat.status">
+    <strong>{{ seat.number }}</strong> 
+       <!-- Zone Dropdown -->
+    <label>Zone:
+      <select [(ngModel)]="seat.zoneId">
+        <option *ngFor="let zone of zones" [value]="zone.id">{{ zone.name }}</option>
+      </select>
+    </label>
+    <select [(ngModel)]="seat.isActive">
       <option value="available">Available</option>
       <option value="booked">Booked</option>
       <option value="confirmed">Confirmed</option>
@@ -68,13 +74,13 @@
 <!-- Add New Seat -->
 <div class="section">
   <h3>Add New Seat</h3>
-  <input [(ngModel)]="newSeat.id" placeholder="Seat ID (e.g. A20C31)" />
-  <input [(ngModel)]="newSeat.zone" placeholder="Zone (e.g. A)" />
+  <input [(ngModel)]="newSeat.number" placeholder="Seat ID (e.g. A20C31)" />
+  <input [(ngModel)]="newSeat.zoneId" placeholder="Zone (e.g. A)" />
  
-  <select [(ngModel)]="newSeat.status">
+  <!-- <select [(ngModel)]="newSeat.status">
     <option value="available">Available</option>
     <option value="booked">Booked</option>
     <option value="confirmed">Confirmed</option>
-  </select>
+  </select> -->
   <button (click)="addSeat()">Add</button>
 </div>

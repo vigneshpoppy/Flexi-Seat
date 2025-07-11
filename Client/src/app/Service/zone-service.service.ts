@@ -10,9 +10,9 @@ export class ZoneServiceService {
 
 constructor(private http:HttpClient ) {}
 
-localBaseUrl="http://localhost:39752/api/Zone/"
+localBaseUrl="http://localhost:39752/api/Zones/"
   getZoneAllData(): Observable<any> {
-    return this.http.get(this.localBaseUrl+"GetAllZones");
+    return this.http.get(this.localBaseUrl+"All");
   }
 
 
