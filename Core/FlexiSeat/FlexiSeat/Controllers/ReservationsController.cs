@@ -141,10 +141,6 @@ namespace FlexiSeat.Controllers
             Name = z.Name,
             Description = z.Description,
             IsActive = z.IsActive,
-            ManagerADID = _context.OrgSeatPools.FirstOrDefault(p => p.ZoneId == z.ID)?.ManagerADID,
-            ManagerName = _context.OrgSeatPools
-                  .Include(p => p.Manager)
-                  .FirstOrDefault(p => p.ZoneId == z.ID)?.Manager?.Name,
             AvailableSeatCount = seatCounts.ContainsKey(z.ID) ? seatCounts[z.ID] : 0
           }).ToList();
 

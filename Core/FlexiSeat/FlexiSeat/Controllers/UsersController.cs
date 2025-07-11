@@ -96,8 +96,154 @@ namespace FlexiSeat.Controllers
               }
             );
         }
+    [HttpPost("bulk")]
+    public async Task<IActionResult> BulkCreateUsers([FromBody] List<CreateUserDTO> dtos)
+    {
+      if (dtos is null || dtos.Count == 0)
+        return BadRequest("Request body must have at least one user.");
 
-        [HttpGet("{adid}")]
+      // 1️⃣ ModelState check for each DTO
+      foreach (var dto in dtos)
+      {
+        TryValidateModel(dto);
+      }
+      if (!ModelState.IsValid)
+        return ValidationProblem(ModelState);
+
+      // 2️⃣ Normalise & detect duplicates inside the payload itself
+      var normalized = dtos.Select(dto => new
+      {
+        Dto = dto,
+        AdidNorm = dto.ADID.Trim().ToUpperInvariant(),
+        BadgeNorm = dto.BadgeId.Trim().ToUpperInvariant()
+      }).ToList();
+
+      var dupAdids = normalized.GroupBy(x => x.AdidNorm)
+                                 .Where(g => g.Count() > 1)
+                                 .Select(g => g.Key)
+                                 .ToHashSet();
+
+      var dupBadges = normalized.GroupBy(x => x.BadgeNorm)
+                                 .Where(g => g.Count() > 1)
+                                 .Select(g => g.Key)
+                                 .ToHashSet();
+
+      if (dupAdids.Any() || dupBadges.Any())
+      {
+        return Conflict(new
+        {
+          message = "Duplicate ADID or BadgeId inside the payload.",
+          dupAdids,
+          dupBadges
+        });
+      }
+
+      // 3️⃣ Fetch existing ADIDs / BadgeIds once
+      var adidSet = normalized.Select(x => x.AdidNorm).ToList();
+      var badgeSet = normalized.Select(x => x.BadgeNorm).ToList();
+
+      var existing = await _context.Users
+          .Where(u => adidSet.Contains(u.ADID) || badgeSet.Contains(u.BadgeId))
+          .Select(u => new { u.ADID, u.BadgeId })
+          .ToListAsync();
+
+      var existingAdids = existing.Select(e => e.ADID).ToHashSet(StringComparer.OrdinalIgnoreCase);
+      var existingBadges = existing.Select(e => e.BadgeId).ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+      // 4️⃣ Separate insertable vs. skipped
+      var toInsert = new List<(User user, UserLogin login, string PlainPassword)>();
+      var skipped = new List<object>();
+
+      foreach (var x in normalized)
+      {
+        if (existingAdids.Contains(x.AdidNorm))
+        {
+          skipped.Add(new { x.Dto.ADID, Reason = "ADID already exists" });
+          continue;
+        }
+        if (existingBadges.Contains(x.BadgeNorm))
+        {
+          skipped.Add(new { x.Dto.ADID, Reason = "BadgeId already exists" });
+          continue;
+        }
+
+        // Map DTO ➜ entity
+        var user = new User
+        {
+          ADID = x.AdidNorm,
+          Name = x.Dto.Name,
+          Designation = x.Dto.Designation,
+          BadgeId = x.BadgeNorm,
+          RoleId = x.Dto.RoleId,
+          LeadADID = x.Dto.LeadADID?.Trim().ToUpperInvariant(),
+          ManagerADID = x.Dto.ManagerADID?.Trim().ToUpperInvariant()
+        };
+
+        // Temp password & login
+        string plainPwd = PasswordHelper.Generate();
+        string hashPwd = PasswordHelper.HashPassword(plainPwd);
+
+        var login = new UserLogin
+        {
+          ADID = x.AdidNorm,
+          PasswordHash = hashPwd
+        };
+
+        toInsert.Add((user, login, plainPwd));
+      }
+
+      if (toInsert.Count == 0)
+        return Conflict(new { message = "No users inserted; all conflicted.", skipped });
+
+      // 5️⃣ Transactional insert
+      using var trx = await _context.Database.BeginTransactionAsync();
+      try
+      {
+        _context.Users.AddRange(toInsert.Select(t => t.user));
+        _context.UserLogins.AddRange(toInsert.Select(t => t.login));
+        await _context.SaveChangesAsync();
+        await trx.CommitAsync();
+      }
+      catch (Exception ex)
+      {
+        await trx.RollbackAsync();
+        //  _logger.LogError(ex, "Bulk insert failed");
+        return StatusCode(500, "Database error while inserting users.");
+      }
+
+      // 6️⃣ Optional: write passwords to log (remove in prod!)
+      var logFilePath = "BulkUserLog.txt";
+      await using (var sw = new StreamWriter(logFilePath, append: true))
+      {
+        foreach (var t in toInsert)
+        {
+          await sw.WriteLineAsync($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {t.user.ADID} | {t.PlainPassword}");
+        }
+      }
+
+      // Optionally send e‑mails here (loop & await _emailService.SendEmailAsync)
+      // disabled until SMTP available.
+
+      // 7️⃣ Build response
+      var insertedSummary = toInsert.Select(t => new
+      {
+        t.user.ADID,
+        t.user.Name,
+        t.user.Designation,
+        t.user.BadgeId,
+        t.user.RoleId,
+        t.user.LeadADID,
+        t.user.ManagerADID,
+        PlainPassword = t.PlainPassword   // ⚠️ remove for prod if unsafe
+      });
+
+      return Ok(new
+      {
+        inserted = insertedSummary,
+        skipped
+      });
+    }
+    [HttpGet("{adid}")]
         public async Task<IActionResult> GetUserByADID(string adid)
         {
             if (string.IsNullOrWhiteSpace(adid))
