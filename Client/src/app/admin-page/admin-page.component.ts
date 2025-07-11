@@ -18,4 +18,12 @@ this.router.navigate(['/employeemanagement']);
   goToSeatManagement() {
     this.router.navigate(['/seatmanagement']);
   }
+
+   goToRoleManagement() {
+    this.router.navigate(['/rolemanagement']);
+  }
+   goToZoneManagement() {
+    this.router.navigate(['/zonemanagement']);
+  }
 }
+

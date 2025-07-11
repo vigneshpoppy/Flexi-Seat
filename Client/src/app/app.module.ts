@@ -15,6 +15,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { CheckinClientComponent } from './checkin-client/checkin-client.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner'
 import { BarcodeScannerLivestreamModule  } from 'ngx-barcode-scanner';
+import { RoleAdminComponent } from './role-admin/role-admin.component';
+import { ZoneAdminComponent } from './zone-admin/zone-admin.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ToastrModule } from 'ngx-toastr';
+import { NotificationComponent } from './notification/notification.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,11 +31,20 @@ import { BarcodeScannerLivestreamModule  } from 'ngx-barcode-scanner';
     AdminDashboardComponent,
     EmployeeAdminComponent,
     LandingPageComponent,
-    CheckinClientComponent
+    CheckinClientComponent,
+    RoleAdminComponent,
+    ZoneAdminComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,FormsModule,HttpClientModule ,ZXingScannerModule,BarcodeScannerLivestreamModule
+    AppRoutingModule,FormsModule,HttpClientModule ,ZXingScannerModule,BarcodeScannerLivestreamModule, BrowserAnimationsModule,MatSnackBarModule
+  ,
+  //ToastrModule.forRoot({
+    //   timeOut: 6000,
+    //   positionClass: 'toast-top-right',
+    //   preventDuplicates: true,
+    // })
   ],
   providers: [],
   bootstrap: [LandingPageComponent]
