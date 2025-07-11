@@ -1,0 +1,53 @@
+<h2>Zone Management</h2>
+
+<!-- 🔍 Search -->
+<div class="section">
+  <input [(ngModel)]="searchId" placeholder="Search by Zone ID or Name" />
+  <button (click)="onSearch()">Search</button>
+    <button (click)="toggleView()">{{viewZone}}</button>
+</div>
+
+<!-- 🔎 Search Result -->
+<div class="section" *ngIf="filteredZones.length">
+  <h3>Search Result</h3>
+  <div *ngFor="let zone of filteredZones" class="zone-entry">
+    <div class="zone-fields">
+      <span><strong>{{ zone.id }}-</strong></span>
+      <input [(ngModel)]="zone.name" placeholder="Zone Name" />
+      <input [(ngModel)]="zone.description" placeholder="Description" />
+      <select [(ngModel)]="zone.enabled">
+        <option [value]="true">Active</option>
+        <option [value]="false">Inactive</option>
+      </select>
+      <button class="action-button save" (click)="saveZone(zone)">save</button>
+      <button class="action-button delete" (click)="deleteZone(zone)">🗑</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- 📋 View All Zones -->
+<div class="section" *ngIf="enableViewAllZone">
+  <h3>All Zones</h3>
+  <div class="zone-list">
+    <div class="zone-card" *ngFor="let zone of zones">
+      <strong>ID:</strong> {{ zone.id }}<br />
+      <strong>Name:</strong> {{ zone.name }}<br />
+      <strong>Description:</strong> {{ zone.description }}
+    </div>
+  </div>
+</div>
+
+<!-- ➕ Add New Zone -->
+<div class="section">
+  <h3>Add New Zone</h3>
+  <input [(ngModel)]="newZone.id" placeholder="Zone ID (e.g. Z01)" />
+  <input [(ngModel)]="newZone.name" placeholder="Zone Name (e.g. Zone A)" />
+  <input [(ngModel)]="newZone.description" placeholder="Description" />
+    <select [(ngModel)]="newZone.enabled">
+    <option value=true>Active</option>
+    <option value=false>In-Active</option>
+      </select>
+  <button (click)="addZone()">Add</button>
+
+</div>

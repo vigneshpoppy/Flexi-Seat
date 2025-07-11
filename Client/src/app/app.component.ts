@@ -17,6 +17,8 @@ export class AppComponent  implements OnInit{
   filteredSeatData: Seat[]=[]
   seatRows:Seat[]=[];
   isManagerSelected=false;
+  loggedInUserRole: string = 'supervisor';
+
   ngOnInit() {
     this.isManagerSelected=false;
     this.mockData();
@@ -37,8 +39,22 @@ export class AppComponent  implements OnInit{
   onSeatSelected(seat: Seat) {
     console.log('Seat selected:', seat);
   }
-  
+
+  onBulkBooking(bookings: { employeeId: string; seatId: string }[]) {
+  console.log('📦 Bulk Booking submitted:', bookings);
+  // Call backend API like:
+  // this.bookingService.bulkBookSeats(bookings).subscribe(...)
+}
+
+  myTeam = [
+  { id: 'emp001', name: 'Vignesh' },
+  { id: 'emp002', name: 'Sharan' },
+  { id: 'emp003', name: 'Arun' },
+ 
+  ];
+
   mockData(){
+
 this.seatData=[
   { id: 'A20C1', row: 'A', number: 1, status: 'available' },
   { id: 'A20C2', row: 'A', number: 2, status: 'booked' },

@@ -5,10 +5,14 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
 import { EmployeeAdminComponent } from './employee-admin/employee-admin.component';
 import { AppComponent } from './app.component';
 import { CheckinClientComponent } from './checkin-client/checkin-client.component';
+import { RoleAdminComponent } from './role-admin/role-admin.component';
+import { ZoneAdminComponent } from './zone-admin/zone-admin.component';
 
 const routes: Routes = [
    { path: '', redirectTo: '/seat', pathMatch: 'full' },
   {path: 'seatmanagement', component: SeatAdminComponent },
+   {path: 'rolemanagement', component: RoleAdminComponent },
+   {path: 'zonemanagement', component:  ZoneAdminComponent},
   {path: 'admin', component: AdminPageComponent},
   {path: 'employeemanagement', component: EmployeeAdminComponent},
   {path: 'seat', component: AppComponent},

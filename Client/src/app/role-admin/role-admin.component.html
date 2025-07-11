@@ -1,0 +1,51 @@
+<h2>Role Management</h2>
+
+<!-- 🔍 Search -->
+<div class="section">
+  <input [(ngModel)]="searchId" placeholder="Search by Role ID or Name" />
+  <button (click)="onSearch()">Search</button>
+  <button (click)="toggleView()">{{viewRole}}</button>
+</div>
+
+<!-- 🔎 Search Result -->
+<div class="section" *ngIf="filteredRoles.length">
+  <h3>Search Result</h3>
+  <div *ngFor="let role of filteredRoles" class="role-entry">
+    <strong>{{ role.id }}</strong> – 
+    <input [(ngModel)]="role.name" placeholder="Role Name" />
+    <input [(ngModel)]="role.description" placeholder="Description" />
+    <!-- <select [(ngModel)]="role.isActive">
+        <option [value]="true">Active</option>
+        <option [value]="false">Inactive</option>
+      </select> -->
+    <button (click)="saveRole(role)">Save</button>
+    <button (click)="deleteRole(role)">Delete</button>
+  </div>
+</div>
+
+
+<!-- 📋 View All Roles -->
+<div class="section" *ngIf=" enableViewAllRole">
+  <h3>All Roles</h3>
+  <div class="role-list">
+    <div class="role-card" *ngFor="let role of roles">
+      <strong>ID:</strong> {{ role.id }}<br />
+      <strong>Name:</strong> {{ role.name }}<br />
+      <strong>Description:</strong> {{ role.description }}
+       <strong>Status:</strong> {{ role.isActive }}
+    </div>
+  </div>
+</div>
+
+<!-- ➕ Add New Role -->
+<div class="section">
+  <h3>Add New Role</h3>
+  <!-- <input [(ngModel)]="newRole.id" placeholder="Role ID" /> -->
+  <input [(ngModel)]="newRole.name" placeholder="Role Name" />
+  <input [(ngModel)]="newRole.description" placeholder="Description" />
+    <select [(ngModel)]="newRole.isActive">
+        <option [ngValue]=true>Active</option>
+        <option [ngValue]=false>Inactive</option>
+      </select>
+  <button (click)="addRole()">Add</button>
+</div>

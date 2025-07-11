@@ -8,6 +8,9 @@
       </div>
     </div>
   </div>
+  <button *ngIf="isSupervisor" class="bulk-book-button" (click)="openBulkBookingPopup()">
+   Bulk Book Seats
+</button>
   
   <div class="legend">
     <div class="legend-item">
@@ -28,3 +31,18 @@
     </div>
   </div>
   
+
+  <!-- Bulk Booking Modal -->
+<div class="bulk-booking-modal" *ngIf="showPopup">
+  <h3>Select Team Members</h3>
+  <div class="team-list">
+    <label *ngFor="let emp of teamMembers">
+      <input type="checkbox" [(ngModel)]="emp.selected" />
+      {{ emp.name }}
+    </label>
+  </div>
+  <div class="modal-actions">
+    <button (click)="confirmBulkBooking()">Submit</button>
+    <button (click)="closePopup()">Cancel</button>
+  </div>
+</div>

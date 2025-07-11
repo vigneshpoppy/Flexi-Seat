@@ -9,7 +9,11 @@
   <app-seat-map
   *ngIf="isManagerSelected"
     [seatRows]="filteredSeatData"
-    (seatSelected)="onSeatSelected($event)">
+    (seatSelected)="onSeatSelected($event)"
+    [isSupervisor]="loggedInUserRole === 'supervisor'"
+    [teamMembers]="myTeam"
+    (bulkBooked)="onBulkBooking($event)"
+    >
   </app-seat-map>
 </div>
 
