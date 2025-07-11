@@ -4,6 +4,7 @@ using FlexiSeat.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlexiSeat.Migrations
 {
     [DbContext(typeof(FlexiSeatDbContext))]
-    partial class FlexiSeatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250711054700_M6_ReservationsTableCreation")]
+    partial class M6_ReservationsTableCreation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,32 +24,6 @@ namespace FlexiSeat.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FlexiSeat.Data.OrgSeatPool", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("ManagerADID")
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<int>("SeatsAllotted")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ZoneId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ManagerADID");
-
-                    b.HasIndex("ZoneId");
-
-                    b.ToTable("OrgSeatPools");
-                });
 
             modelBuilder.Entity("FlexiSeat.Data.Reservation", b =>
                 {
@@ -107,13 +84,6 @@ namespace FlexiSeat.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -230,6 +200,9 @@ namespace FlexiSeat.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ManagerADID")
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -237,27 +210,12 @@ namespace FlexiSeat.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("ManagerADID");
+
                     b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Zones");
-                });
-
-            modelBuilder.Entity("FlexiSeat.Data.OrgSeatPool", b =>
-                {
-                    b.HasOne("FlexiSeat.Data.User", "Manager")
-                        .WithMany()
-                        .HasForeignKey("ManagerADID");
-
-                    b.HasOne("FlexiSeat.Data.Zone", "Zone")
-                        .WithMany()
-                        .HasForeignKey("ZoneId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Manager");
-
-                    b.Navigation("Zone");
                 });
 
             modelBuilder.Entity("FlexiSeat.Data.Reservation", b =>
@@ -321,6 +279,15 @@ namespace FlexiSeat.Migrations
                     b.Navigation("Manager");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("FlexiSeat.Data.Zone", b =>
+                {
+                    b.HasOne("FlexiSeat.Data.User", "Manager")
+                        .WithMany()
+                        .HasForeignKey("ManagerADID");
+
+                    b.Navigation("Manager");
                 });
 #pragma warning restore 612, 618
         }

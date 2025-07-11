@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlexiSeat.Data
 {
     public class Role
     {
+        private string _name;
+        private string _description;
+
         [Key]
         public int Id { get; set; }
-
-        private string _name;
 
         [Required]
         [StringLength(50)]
@@ -16,5 +17,15 @@ namespace FlexiSeat.Data
             get => _name;
             set => _name = value?.Trim().ToUpper();
         }
-    }
+
+        [StringLength(100)]
+        public string? Description
+        {
+          get => _description;
+          set => _description = value?.Trim().ToUpper();
+        }
+
+        [Required]
+        public bool IsActive { get; set; }
+      }
 }
