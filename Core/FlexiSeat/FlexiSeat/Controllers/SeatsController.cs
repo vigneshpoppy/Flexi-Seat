@@ -1,9 +1,11 @@
 using FlexiSeat.Data;
 using FlexiSeat.DbContext;
+using FlexiSeat.DTO.ReservationDTOs;
 using FlexiSeat.DTO.SeatDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace FlexiSeat.Controllers
 {
@@ -94,7 +96,7 @@ namespace FlexiSeat.Controllers
           ID = seat.ID,
           Number = seat.Number,
           ZoneId = seat.ZoneId,
-          ZoneName = seat.Zone?.Name,
+          ZoneName = seat.Zone.Name,
           IsActive = seat.IsActive
         };
         getSeatDTOs.Add(dto);
