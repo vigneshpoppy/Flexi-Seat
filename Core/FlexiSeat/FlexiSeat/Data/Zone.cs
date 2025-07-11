@@ -5,19 +5,27 @@ namespace FlexiSeat.Data
 {
     public class Zone
     {
+        private string _name;
+        private string _description;
         [Key]
         public int ID { get; set; }
 
         [Required]
-        [MaxLength(100)]
-        public string Name { get; set; }
+        [StringLength(50)]
+        public string Name
+        {
+          get => _name;
+          set => _name = value?.Trim().ToUpper();
+        }
 
-        [MaxLength(250)]
-        public string? Description { get; set; }
+        [StringLength(100)]
+        public string? Description
+        {
+          get => _description;
+          set => _description = value?.Trim().ToUpper();
+        }
 
-        [MaxLength(150)]
-        public string? LocationName { get; set; }
-
+        [Required]
         public bool IsActive { get; set; }
 
         public string? ManagerADID { get; set; }

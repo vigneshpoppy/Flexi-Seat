@@ -1,4 +1,7 @@
 using FlexiSeat.DbContext;
+using FlexiSeat.Models;
+using FlexiSeat.Services;
+using FlexiSeat.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -12,6 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<FlexiSeatDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnectionString")));
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
 
