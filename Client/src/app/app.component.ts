@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Seat } from './Models/seat';
 import { OrgpoolService } from './Service/orgpool.service';
 import { log } from 'node:console';
 import { ZoneManager } from './Models/zonemanager';
 import { ReservationService } from './Service/reservation.service';
+import { UserService } from './Service/user.service';
+import { individualSeatReservation, UserSeatReservation } from './Models/reservation';
+import { SeatMapComponent } from './seat-map/seat-map.component';
 
 
 @Component({
@@ -13,9 +16,10 @@ import { ReservationService } from './Service/reservation.service';
 })
 export class AppComponent  implements OnInit{
 
-constructor(private orgpoolService:OrgpoolService,private reservationService:ReservationService){}
+constructor(private orgpoolService:OrgpoolService,private userService:UserService, private reservationService:ReservationService){}
   title = 'FlexiSeatBooking';
 
+  @ViewChild(SeatMapComponent) childComponent!: SeatMapComponent;
   // Final seat data to use in seat map UI
   seatData: Seat[] = [];
   filteredSeatData: Seat[]=[]
@@ -27,16 +31,21 @@ constructor(private orgpoolService:OrgpoolService,private reservationService:Res
   managerPoolData : ZoneManager []=[];
   ZonesAllocated:string=''
    TotalSeatsforManager:any;
+   userid:any
+
   ngOnInit() {
      localStorage.setItem("zonesAllocated",'');
    localStorage.setItem("totalsetats",'');
+   this.userid=localStorage.getItem("userid")?.toUpperCase();
     this.isManagerSelected=false;
     this.mockData();
     const now = new Date();
     this.today = now.toISOString().split('T')[0];
     this.managerAdid= localStorage.getItem("manageradid")?.toUpperCase();
     this.fetchManagerPool();
+    this.fetchTeamMembers();
    // this.fetchseats();
+
   }
 selectedDate: string = '';
 allSeatData: Seat[] = [];
@@ -62,6 +71,20 @@ this.reservationService.getSeatsbyZone(this.ZonesAllocated,this.selectedDate).su
      // this.allSeatData=result;
      this.filteredSeatData=result;
 console.log(this.filteredSeatData);
+    },
+    error:err=>{
+      console.log(err);
+    }
+    
+  })
+}
+
+fetchTeamMembers(){
+this.userService.getTeamMembersByManagerID(this.managerAdid).subscribe({
+    next:result=>{
+     // this.allSeatData=result;
+     this.myTeam=result;
+console.log(this.myTeam);
     },
     error:err=>{
       console.log(err);
@@ -108,18 +131,79 @@ fetchSeatDataForDate(date: string) {
     };
   onSeatSelected(seat: Seat) {
     console.log('Seat selected:', seat);
+
+   const payload: individualSeatReservation = {
+      userADID:this.userid,           
+      seatID: seat.id,                 
+      reservedDate:this.selectedDate, 
+      reservedByADID: this.userid      
+    };
+    this.reservationService.individualReservation(payload).subscribe({
+      next:res=>{
+        
+        console.log(res);
+            },
+            error:err=>{
+              console.log(err);
+            }
+    })
   }
 
+  individualseatSelected(data:UserSeatReservation){
+    console.log("Individual")
+    console.log(data);
+  // const payload: individualSeatReservation = {
+  //     userADID:data.userADID,           
+  //     seatID: data.seatID,                 
+  //     reservedDate:this.selectedDate, 
+  //     reservedByADID: this.userid      
+  //   };
+  //   this.reservationService.individualReservation(payload).subscribe({
+  //     next:res=>{
+  //       console.log(res);
+  //           },
+  //           error:err=>{
+  //             console.log(err);
+  //           }
+  //   })
+  }
+
+
   onBulkBooking(bookings: { employeeId: string; seatId: string }[]) {
-  console.log('📦 Bulk Booking submitted:', bookings);
-  // Call backend API like:
-  // this.bookingService.bulkBookSeats(bookings).subscribe(...)
+
+    const payload:individualSeatReservation[]=[]
+    bookings.forEach(booking => {
+ 
+    const reservation: individualSeatReservation = 
+  {
+    userADID: booking.employeeId ,
+    seatID: booking.seatId,
+    reservedDate: this.selectedDate,
+    reservedByADID: this.userid
+  };
+    
+  payload.push(reservation)
+
+})
+
+this.reservationService.bulkReservation(payload).subscribe({
+      next:res=>{
+        
+        console.log(res);
+        const todayStr = new Date().toISOString().split('T')[0];
+      //  this.selectedDate=todayStr;
+        this.fetchseats()
+            },
+            error:err=>{
+              console.log(err);
+            }
+    })
 }
 
   myTeam = [
-  { id: 'emp001', name: 'Vignesh' },
-  { id: 'emp002', name: 'Sharan' },
-  { id: 'emp003', name: 'Arun' },
+  { adid: 'YJJYJJ', name: 'Vignesh' },
+  { adid: 'FGGFGG', name: 'Sharan' },
+  { adid: 'YHHYHH', name: 'Arun' },
  
   ];
 
