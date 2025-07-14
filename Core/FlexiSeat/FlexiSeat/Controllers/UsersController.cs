@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlexiSeat.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -98,6 +98,7 @@ namespace FlexiSeat.Controllers
               }
             );
         }
+        [Authorize]
     [HttpPost("bulk")]
     public async Task<IActionResult> BulkCreateUsers([FromBody] List<CreateUserDTO> dtos)
     {

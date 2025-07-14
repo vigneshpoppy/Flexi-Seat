@@ -47,10 +47,14 @@ namespace FlexiSeat.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.NameId, appUser.ADID.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, appUser.Name),
-                new Claim("Lead ADID", appUser!.LeadADID!.ToString()),
-                new Claim("Manager ADID", appUser!.ManagerADID!.ToString()),
-                new Claim("Role", role!.Name)
+                new Claim("Role", role!.Name)                
             };
+
+            if(!string.IsNullOrWhiteSpace(Convert.ToString(appUser!.Manager)))
+            {
+                //var managerClaim = new Claim("Manager ADID", appUser!.Manager);
+                claims.Add(new Claim("Manager ADID", Convert.ToString(appUser!.ManagerADID)));
+            }
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
