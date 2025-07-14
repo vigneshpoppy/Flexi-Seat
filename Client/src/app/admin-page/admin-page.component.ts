@@ -25,5 +25,9 @@ this.router.navigate(['/employeemanagement']);
    goToZoneManagement() {
     this.router.navigate(['/zonemanagement']);
   }
+
+     goToDashboard() {
+    this.router.navigate(['/dashboard']);
+  }
 }
 

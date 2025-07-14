@@ -1,3 +1,4 @@
+using FlexiSeat.Data;
 using FlexiSeat.DbContext;
 using FlexiSeat.Models;
 using FlexiSeat.Services;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 var secretString = builder.Configuration.GetValue<string>("TokenKey");
@@ -22,6 +24,10 @@ builder.Services.AddDbContext<FlexiSeatDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnectionString")));
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<WhatsAppMessageService>();
+builder.Services.AddScoped<SeatService>();
+builder.Services.Configure<TwilioSettings>(
+builder.Configuration.GetSection("Twilio"));
 
 builder.Services.AddSwaggerGen(setup =>
 {
@@ -63,6 +69,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     };
                 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
@@ -84,7 +100,7 @@ using (var scope = app.Services.CreateScope())
     // Option 2: Apply pending migrations (recommended for production)
     dbContext.Database.Migrate();
 }
-
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 

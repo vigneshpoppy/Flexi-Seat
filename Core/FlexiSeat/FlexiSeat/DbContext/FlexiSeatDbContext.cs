@@ -6,70 +6,81 @@ using System.Collections.Generic;
 
 namespace FlexiSeat.DbContext
 {
-    public class FlexiSeatDbContext : Microsoft.EntityFrameworkCore.DbContext
-    {
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Zone> Zones { get; set; }
-        public DbSet<Seat> Seats { get; set; }
-        public DbSet<UserLogin> UserLogins { get; set; }
-        public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<OrgSeatPool> OrgSeatPools { get; set; }
-
+  public class FlexiSeatDbContext : Microsoft.EntityFrameworkCore.DbContext
+  {
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Zone> Zones { get; set; }
+    public DbSet<Seat> Seats { get; set; }
+    public DbSet<UserLogin> UserLogins { get; set; }
+    public DbSet<Reservation> Reservations { get; set; }
+    public DbSet<OrgSeatPool> OrgSeatPools { get; set; }
+    public DbSet<Employee> Employees { get; set; } = null!;
     public FlexiSeatDbContext(DbContextOptions<FlexiSeatDbContext> options) : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Role>()
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      modelBuilder.Entity<Employee>(e =>
+      {
+        e.Property(p => p.EmployeeADID).HasMaxLength(20);
+        e.HasIndex(p => p.PhoneNumber);
+
+        // Relationship: one Employee ➜ many Reservations
+        e.HasMany<Reservation>()
+         .WithOne(r => r.Employee)           // add nav property in Reservation
+         .HasForeignKey(r => r.ReservedByADID)
+         .HasPrincipalKey(e => e.EmployeeADID);
+      });
+      modelBuilder.Entity<Role>()
                 .HasIndex(r => r.Name)
                 .IsUnique();
 
-            modelBuilder.Entity<User>()
-              .HasIndex(u => u.BadgeId)
-              .IsUnique();
+      modelBuilder.Entity<User>()
+        .HasIndex(u => u.BadgeId)
+        .IsUnique();
 
-            // Optional: configure self-referencing relationships for clarity
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Lead)
-                .WithMany()
-                .HasForeignKey(u => u.LeadADID)
-                .OnDelete(DeleteBehavior.Restrict);
+      // Optional: configure self-referencing relationships for clarity
+      modelBuilder.Entity<User>()
+          .HasOne(u => u.Lead)
+          .WithMany()
+          .HasForeignKey(u => u.LeadADID)
+          .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Manager)
-                .WithMany()
-                .HasForeignKey(u => u.ManagerADID)
-                .OnDelete(DeleteBehavior.Restrict);
+      modelBuilder.Entity<User>()
+          .HasOne(u => u.Manager)
+          .WithMany()
+          .HasForeignKey(u => u.ManagerADID)
+          .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Zone>()
-              .HasIndex(d => d.Name)
-              .IsUnique();
+      modelBuilder.Entity<Zone>()
+        .HasIndex(d => d.Name)
+        .IsUnique();
 
-            modelBuilder.Entity<Seat>()
-             .HasIndex(c => c.Number)
-             .IsUnique();
+      modelBuilder.Entity<Seat>()
+       .HasIndex(c => c.Number)
+       .IsUnique();
 
-            modelBuilder.Entity<Reservation>()
-              .HasOne(r => r.User)
-              .WithMany()
-              .HasForeignKey(r => r.UserADID)
-              .OnDelete(DeleteBehavior.Restrict); // or DeleteBehavior.NoAction
+      modelBuilder.Entity<Reservation>()
+        .HasOne(r => r.User)
+        .WithMany()
+        .HasForeignKey(r => r.UserADID)
+        .OnDelete(DeleteBehavior.Restrict); // or DeleteBehavior.NoAction
 
-            modelBuilder.Entity<Reservation>()
-                .HasOne(r => r.ReservedBy)
-                .WithMany()
-                .HasForeignKey(r => r.ReservedByADID)
-                .OnDelete(DeleteBehavior.Restrict); // or DeleteBehavior.NoAction
+      modelBuilder.Entity<Reservation>()
+          .HasOne(r => r.ReservedBy)
+          .WithMany()
+          .HasForeignKey(r => r.ReservedByADID)
+          .OnDelete(DeleteBehavior.Restrict); // or DeleteBehavior.NoAction
 
-            // Seat FK can keep cascade delete if you want:
-            modelBuilder.Entity<Reservation>()
-                .HasOne(r => r.Seat)
-                .WithMany()
-                .HasForeignKey(r => r.SeatID)
-                .OnDelete(DeleteBehavior.Cascade);
+      // Seat FK can keep cascade delete if you want:
+      modelBuilder.Entity<Reservation>()
+          .HasOne(r => r.Seat)
+          .WithMany()
+          .HasForeignKey(r => r.SeatID)
+          .OnDelete(DeleteBehavior.Cascade);
 
       base.OnModelCreating(modelBuilder);
-        }
-
     }
+
+  }
 }

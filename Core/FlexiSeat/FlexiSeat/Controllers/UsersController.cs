@@ -2,8 +2,8 @@ using FlexiSeat.Data;
 using FlexiSeat.DbContext;
 using FlexiSeat.DTO.UserDTOs;
 using FlexiSeat.Helpers;
-using FlexiSeat.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using FlexiSeat.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -277,6 +277,8 @@ namespace FlexiSeat.Controllers
             return Ok(dto);
         }
 
+
+
         [HttpGet("All")]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -301,6 +303,38 @@ namespace FlexiSeat.Controllers
             });
 
             return Ok(result);
+        }
+
+        [HttpGet("manager/{adid}")]
+        public async Task<IActionResult> GetUserByManagerADID(string adid)
+        {
+            if (string.IsNullOrWhiteSpace(adid))
+                return BadRequest(new { message = "ADID is required." });
+
+            var user = await _context.Users
+                .Include(u => u.Role)
+                .Include(u => u.Lead)
+                .Include(u => u.Manager)
+                .FirstOrDefaultAsync(u => u.ManagerADID == adid.Trim().ToUpper());
+
+            if (user == null)
+                return NotFound(new { message = $"User with ADID '{adid.Trim().ToUpper()}' not found." });
+
+            var dto = new GetUserDTO
+            {
+                ADID = user.ADID,
+                Name = user.Name,
+                Designation = user.Designation,
+                BadgeId = user.BadgeId,
+                RoleId = user.RoleId,
+                RoleName = user.Role?.Name,
+                LeadADID = user.LeadADID,
+                LeadName = user.Lead?.Name,
+                ManagerADID = user.ManagerADID,
+                ManagerName = user.Manager?.Name
+            };
+
+            return Ok(dto);
         }
 
         [HttpPatch("Update/{adid}")]
