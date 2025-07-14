@@ -1,11 +1,11 @@
 using FlexiSeat.Data;
 using FlexiSeat.DbContext;
-using FlexiSeat.DTO.ReservationDTOs;
 using FlexiSeat.DTO.SeatDTOs;
+using FlexiSeat.DTO.WhatsappDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using Twilio.TwiML.Messaging;
 
 namespace FlexiSeat.Controllers
 {
@@ -96,7 +96,7 @@ namespace FlexiSeat.Controllers
           ID = seat.ID,
           Number = seat.Number,
           ZoneId = seat.ZoneId,
-          ZoneName = seat.Zone.Name,
+          ZoneName = seat.Zone?.Name,
           IsActive = seat.IsActive
         };
         getSeatDTOs.Add(dto);
@@ -173,6 +173,6 @@ namespace FlexiSeat.Controllers
       await _context.SaveChangesAsync();
 
       return Ok(new { message = $"Seat with ID {id} deleted successfully." });
-    }
+    }    
   }
 }
