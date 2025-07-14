@@ -1,0 +1,21 @@
+<header class="app-header">
+  <img src="assets/ups-logo.png" alt="UPS Logo" class="logo" />
+  <h1 class="title">Flexi Seat Booking</h1>
+</header>
+<header class="title">Zone-Viewer</header>
+<div style="padding: 10px;margin-top: 10px;width: 100%;">
+    <ul>
+        <li style="list-style-type: none;display: flex;justify-content: space-evenly;">
+            <button [style.background-color] = "(activeZone=='Zone-C') ? '#e0f2fe' : 'rgba(255, 255, 255, 0.6)'" class="nav-button" (click)="loadZone('Zone-C')">Zone-C</button>
+            <button  [style.background-color] = "(activeZone=='Zone-D') ? '#e0f2fe' : 'rgba(255, 255, 255, 0.6)'" class="nav-button" (click)="loadZone('Zone-D')">Zone-D</button>
+            <button  [style.background-color] = "(activeZone=='Zone-E') ? '#e0f2fe' : 'rgba(255, 255, 255, 0.6)'" class="nav-button" (click)="loadZone('Zone-E')">Zone-E</button>
+            <button  [style.background-color] = "(activeZone=='Zone-F') ? '#e0f2fe' : 'rgba(255, 255, 255, 0.6)'" class="nav-button" (click)="loadZone('Zone-F')">Zone-F</button>
+            <button  [style.background-color] = "(activeZone=='Zone-G') ? '#e0f2fe' : 'rgba(255, 255, 255, 0.6)'" class="nav-button" (click)="loadZone('Zone-G')">Zone-G</button>
+            <button  [style.background-color] = "(activeZone=='Zone-H') ? '#e0f2fe' : 'rgba(255, 255, 255, 0.6)'" class="nav-button" (click)="loadZone('Zone-H')">Zone-H</button>
+        </li>
+    </ul>
+</div>
+
+<div style="padding: 10px;margin-top: 10px;width: 100%;text-align: center;">
+    <img src={{imagePath}} />
+</div>

@@ -63,6 +63,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     };
                 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
@@ -84,7 +94,7 @@ using (var scope = app.Services.CreateScope())
     // Option 2: Apply pending migrations (recommended for production)
     dbContext.Database.Migrate();
 }
-
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 

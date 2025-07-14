@@ -24,6 +24,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ZoneViewerComponent } from './zone-viewer/zone-viewer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +41,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     NotificationComponent,
     LoginComponent,
     ChangePasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ZoneViewerComponent
   ],
   imports: [
     BrowserModule,
