@@ -47,7 +47,7 @@ selectedSeat: Seat | null = null;
   onSeatClick(seat: Seat) {
     console.log(seat);
     
-    if (seat.status != 'available') return;
+    if (seat.status != 'Available') return;
       // Set the selected seat to open confirmation modal
   this.selectedSeat = seat;
     this.seatSelected.emit(seat);
@@ -57,7 +57,7 @@ bookSelectedSeat() {
   console.log("Booking selection"+this.selectedSeat);
   
   if (this.selectedSeat) {
-    this.selectedSeat.status = 'booked'; // or 'booked' based on your flow
+    this.selectedSeat.status = 'Booked'; // or 'booked' based on your flow
     this.seatSelected.emit(this.selectedSeat);
     this.selectedSeat = null;
   }
@@ -67,7 +67,7 @@ bookSelectedSeat() {
 cancelSeat() {
   if (this.selectedSeat) {
       console.log("Cancel selection"+this.selectedSeat);
-    this.selectedSeat.status = 'available';
+    this.selectedSeat.status = 'Available';
     this.seatSelected.emit(this.selectedSeat);
     this.selectedSeat = null;
   }
@@ -88,7 +88,7 @@ closeConfirmation() {
   // Bulk Booking logic
   confirmBulkBooking() {
     const selectedMembers = this.teamMembers.filter(emp => emp.selected);
-    const availableSeats = this.seatRows.filter(seat => seat.status === 'available');
+    const availableSeats = this.seatRows.filter(seat => seat.status === 'Available');
 
     if (selectedMembers.length > availableSeats.length) {
       this.notify.showWarning(' Not enough seats available!')

@@ -5,7 +5,7 @@ export interface Seat {
   status: SeatStatus;
   // 'available' | 'booked' | 'confirmed' | 'checked-in'
 }
-export type SeatStatus = 'available' | 'booked' | 'confirmed' | 'checked-in';
+export type SeatStatus = 'Available' | 'Booked' | 'Confirmed' | 'Checked-in';
 
 export interface NewSeat {
   number: string;            // e.g., A20C1

@@ -25,6 +25,9 @@ import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ZoneViewerComponent } from './zone-viewer/zone-viewer.component';
+
+
+import { NgChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +49,7 @@ import { ZoneViewerComponent } from './zone-viewer/zone-viewer.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,FormsModule,HttpClientModule ,ZXingScannerModule,BarcodeScannerLivestreamModule, BrowserAnimationsModule,MatSnackBarModule
+    AppRoutingModule,FormsModule,HttpClientModule ,ZXingScannerModule,BarcodeScannerLivestreamModule, NgChartsModule,BrowserAnimationsModule,MatSnackBarModule
   ,
   //ToastrModule.forRoot({
     //   timeOut: 6000,
