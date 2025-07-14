@@ -35,4 +35,5 @@ updateZone(id: string, payload: PostZone): Observable<any> {
 deleteZone(id: string): Observable<any> {
   return this.http.delete(`${this.localBaseUrl}DeleteZoneById/${id}`);
 }
+
 }

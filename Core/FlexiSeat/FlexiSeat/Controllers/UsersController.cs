@@ -305,6 +305,7 @@ namespace FlexiSeat.Controllers
             return Ok(result);
         }
 
+        [HttpGet("manager/{adid}")]
         public async Task<IActionResult> GetUserByManagerADID(string adid)
         {
             if (string.IsNullOrWhiteSpace(adid))

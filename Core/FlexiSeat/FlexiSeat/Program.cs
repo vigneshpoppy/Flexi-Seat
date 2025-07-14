@@ -100,7 +100,7 @@ using (var scope = app.Services.CreateScope())
     // Option 2: Apply pending migrations (recommended for production)
     dbContext.Database.Migrate();
 }
-
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
