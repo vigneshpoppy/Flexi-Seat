@@ -3,12 +3,14 @@ using FlexiSeat.DbContext;
 using FlexiSeat.DTO.UserDTOs;
 using FlexiSeat.Helpers;
 using FlexiSeat.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlexiSeat.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
