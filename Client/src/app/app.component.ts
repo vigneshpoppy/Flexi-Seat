@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Seat } from './Models/seat';
+import { OrgpoolService } from './Service/orgpool.service';
+import { log } from 'node:console';
+import { ZoneManager } from './Models/zonemanager';
+import { ReservationService } from './Service/reservation.service';
 
 
 @Component({
@@ -9,7 +13,7 @@ import { Seat } from './Models/seat';
 })
 export class AppComponent  implements OnInit{
 
-
+constructor(private orgpoolService:OrgpoolService,private reservationService:ReservationService){}
   title = 'FlexiSeatBooking';
 
   // Final seat data to use in seat map UI
@@ -18,13 +22,79 @@ export class AppComponent  implements OnInit{
   seatRows:Seat[]=[];
   isManagerSelected=false;
   loggedInUserRole: string = 'supervisor';
-
+  today:any;
+  managerAdid:any;
+  managerPoolData : ZoneManager []=[];
+  ZonesAllocated:string=''
+   TotalSeatsforManager:any;
   ngOnInit() {
+     localStorage.setItem("zonesAllocated",'');
+   localStorage.setItem("totalsetats",'');
     this.isManagerSelected=false;
     this.mockData();
-    
+    const now = new Date();
+    this.today = now.toISOString().split('T')[0];
+    this.managerAdid= localStorage.getItem("manageradid")?.toUpperCase();
+    this.fetchManagerPool();
+   // this.fetchseats();
   }
+selectedDate: string = '';
+allSeatData: Seat[] = [];
+//filteredSeatData: Seat[] = [];
 
+fetchManagerPool(){
+  this.orgpoolService.getOrgByID(this.managerAdid).subscribe({
+    next:result=>{
+     this.managerPoolData=result;
+    var res= this.formatZonesSummary(this.managerPoolData);
+ console.log(res);
+    },
+    error:err=>{
+      console.log(err);
+    }
+    
+  })
+}
+fetchseats(){
+  console.log("fetchseats")
+this.reservationService.getSeatsbyZone(this.ZonesAllocated,this.selectedDate).subscribe({
+    next:result=>{
+     // this.allSeatData=result;
+     this.filteredSeatData=result;
+console.log(this.filteredSeatData);
+    },
+    error:err=>{
+      console.log(err);
+    }
+    
+  })
+}
+
+ formatZonesSummary(zones: ZoneManager[]): string {
+  const zoneNames =  zones.map(z => z.zoneId).join(", ");
+  const totalSeats = zones.reduce((sum, z) => sum + z.seatsAllotted, 0);
+  this.ZonesAllocated=zoneNames;
+  this.TotalSeatsforManager=totalSeats;
+   localStorage.setItem("zonesAllocated",zoneNames);
+   localStorage.setItem("totalsetats",totalSeats.toString());
+  return `Zone: ${zoneNames}  seat allocated: ${totalSeats}`;
+}
+
+onDateSelected() {
+  if (!this.selectedDate) return;
+console.log(this.selectedDate);
+
+  // Replace this with API call in real app
+  this.fetchSeatDataForDate(this.selectedDate);
+  this.fetchseats()
+}
+
+fetchSeatDataForDate(date: string) {
+  // Simulate backend filter by date
+  // const mockAllSeats: Seat[] = this.getMockSeats(); // or fetch from service
+  // this.allSeatData = mockAllSeats.filter(seat => seat.date === date); // assuming each seat has `date` property
+  // this.filteredSeatData = [...this.allSeatData];
+}
   applyRegionFilter(selectedRegions: string[]) {
   this.filteredSeatData = this.seatData.filter(seat => selectedRegions.includes(seat.row));
    }
