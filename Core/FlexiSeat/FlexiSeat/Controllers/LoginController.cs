@@ -28,7 +28,7 @@ namespace FlexiSeat.Controllers
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]!));
         }
 
-        [HttpPost("")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO dto)
         {
             var user = await _context.UserLogins.FindAsync(dto.ADID);
@@ -37,7 +37,7 @@ namespace FlexiSeat.Controllers
 
             var userData = await _context.Users.FirstOrDefaultAsync(f => f.ADID == dto.ADID);
             var token = await CreateToken(userData!);
-            return Ok(token);
+            return Ok(new { token = token });
         }
 
         private async Task<string> CreateToken(User appUser)

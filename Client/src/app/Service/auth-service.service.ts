@@ -1,84 +1,57 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { Observable, tap, map } from 'rxjs';
+
+interface LoginRequest {
+  adid: string;
+  password: string;
+}
+
+interface LoginResponse {
+  token: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthServiceService {
+  private readonly tokenKey = 'access-token';
+  private readonly roleKey  = 'roles';
 
-  constructor(private http:HttpClient,private router:Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
+ login(username: string, password: string): Observable<LoginResponse> {
+  const payload = { adid: username, password: password };
+  return this.http.post<LoginResponse>('http://localhost:39752/api/Login/Login', payload);
+}
 
-    private roles: string ='';
-
-    tokenKey="access-token";
-    roleKey="roles"
-  Login(username:string ,password:string){
-    var payload={
-      username:username,
-      password:password
-    }
-    const role="admin"
-    this.setRoles(role);
-     var response= this.http.post('https://api.example.com/data', payload);
-     
-  }
-  setRoles(roles: string) {
-    this.roles = roles;
+  /** Local‑storage helpers */
+  private setRoles(roles: string[]) {
     localStorage.setItem(this.roleKey, JSON.stringify(roles));
   }
-
-
-  setToken(token:string){
-    localStorage.setItem(this.tokenKey,token);
+  private setToken(token: string) {
+    localStorage.setItem(this.tokenKey, token);
   }
 
-   logout(): void {
+  /** Accessors */
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+  getRoles(): string {
+    return JSON.parse(localStorage.getItem(this.roleKey) || '');
+  }
+
+  /** Session helpers */
+  logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.roleKey);
     this.router.navigate(['/login']);
   }
-
- 
-  getRoles(): string {
-    return this.roles.length ? this.roles : JSON.parse(localStorage.getItem(this.roleKey) || '');
+  isAuthenticated(): boolean {
+    return !!this.getToken();               // add expiry‑check if needed
   }
-
-
-  getToken(): string | null {
-  //return localStorage.getItem(this.tokenKey);
-  return "token";
-}
-
   hasRole(role: string): boolean {
     return this.getRoles().includes(role);
   }
-
-  isTokenExpired(): boolean {
-  //   const token = this.getToken();
-  // if (!token) return true;
-
-  // try {
-  //   const decoded = jwtDecode<JwtPayload>(token);
-
-    
-  //   if (!decoded.exp) return true;
-
-  //   const now = Date.now().valueOf() / 1000;
-  //   return decoded.exp < now;
-  // } catch (error) {
-  //   return true; 
-  return false
-  }
-
- isAuthenticated(): boolean {
-  console.log(!!this.getToken());
-  return !!this.getToken() && !this.isTokenExpired();
 }
-
-}
-
-
- 
