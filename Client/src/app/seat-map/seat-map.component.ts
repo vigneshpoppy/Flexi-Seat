@@ -1,23 +1,30 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Seat } from '../Models/seat';
 import { NotificationService } from '../Service/notification.service';
+import { individualSeatReservation, UserSeatReservation } from '../Models/reservation';
 
 @Component({
   selector: 'app-seat-map',
   templateUrl: './seat-map.component.html',
   styleUrls: ['./seat-map.component.css']
 })
-export class SeatMapComponent implements OnChanges {
+export class SeatMapComponent implements OnChanges,OnInit {
 
   constructor(private notify:NotificationService){
 
   }
+  userAdID:any;
+  ngOnInit(): void {
+   this.userAdID=localStorage.getItem('userid')?.toUpperCase()
+  }
   @Input() seatRows: Seat[] = []; // ⬅️ Data from parent
   @Output() seatSelected = new EventEmitter<Seat>(); // ⬅️ Send back selected seat
 
+   @Output() individualSelected = new EventEmitter<UserSeatReservation>(); 
+
 // New Inputs for bulk booking
   @Input() isSupervisor: boolean = false;
-  @Input() teamMembers: { id: string; name: string; selected?: boolean }[] = [];
+  @Input() teamMembers: { adid: string; name: string; selected?: boolean }[] = [];
   @Output() bulkBooked = new EventEmitter<{ employeeId: string; seatId: string }[]>();
 
   chunkedSeatRows: Seat[][] = [];
@@ -47,17 +54,18 @@ selectedSeat: Seat | null = null;
   onSeatClick(seat: Seat) {
     console.log(seat);
     
-    if (seat.status != 'available') return;
+    if (seat.status != 'Available') return;
       // Set the selected seat to open confirmation modal
   this.selectedSeat = seat;
-    this.seatSelected.emit(seat);
+   // this.seatSelected.emit(seat);
   }
 
 bookSelectedSeat() {
   console.log("Booking selection"+this.selectedSeat);
   
+  
   if (this.selectedSeat) {
-    this.selectedSeat.status = 'booked'; // or 'booked' based on your flow
+    this.selectedSeat.status = 'Booked'; // or 'booked' based on your flow
     this.seatSelected.emit(this.selectedSeat);
     this.selectedSeat = null;
   }
@@ -67,7 +75,7 @@ bookSelectedSeat() {
 cancelSeat() {
   if (this.selectedSeat) {
       console.log("Cancel selection"+this.selectedSeat);
-    this.selectedSeat.status = 'available';
+    this.selectedSeat.status = 'Available';
     this.seatSelected.emit(this.selectedSeat);
     this.selectedSeat = null;
   }
@@ -88,7 +96,7 @@ closeConfirmation() {
   // Bulk Booking logic
   confirmBulkBooking() {
     const selectedMembers = this.teamMembers.filter(emp => emp.selected);
-    const availableSeats = this.seatRows.filter(seat => seat.status === 'available');
+    const availableSeats = this.seatRows.filter(seat => seat.status === 'Available');
 
     if (selectedMembers.length > availableSeats.length) {
       this.notify.showWarning(' Not enough seats available!')
@@ -97,7 +105,7 @@ closeConfirmation() {
     }
 
     const bookings = selectedMembers.map((member, index) => ({
-      employeeId: member.id,
+      employeeId: member.adid,
       seatId: availableSeats[index].id,
     }));
 
@@ -105,6 +113,11 @@ closeConfirmation() {
     this.closePopup();
 
 }
+
+  refresh(): void {
+    
+    
+  }
 
 
 

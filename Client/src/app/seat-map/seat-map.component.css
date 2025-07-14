@@ -236,3 +236,26 @@
   transform: translateY(-2px);
   background: linear-gradient(135deg, #2563eb, #3b82f6);
 }
+
+
+.Available {
+  border-color: #a7f3d0; 
+  background-color: #ecfdf5;
+  color: #047857;
+}
+.Booked {
+  border-color: #d1d5db;
+  background-color: #e5e7eb;
+  color: #4b5563;
+  cursor: not-allowed;
+}
+.Confirmed {
+  border-color: #fde68a;
+  background-color: #fef9c3;
+  color: #92400e;
+}
+.Checked-in {
+  border-color: #fca5a5;
+  background-color: #fee2e2;
+  color: #991b1b;
+}

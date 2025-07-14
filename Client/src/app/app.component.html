@@ -15,12 +15,13 @@
 </div>
 
 <!-- <app-seat-admin></app-seat-admin> -->
-<div class="section fade-section">
+<div class="section fade-section" *ngIf="selectedDate">
   <!-- <app-manager-seat-filter (filterRegions)="applyRegionFilter($event)"(manager)="CheckManager($event)"></app-manager-seat-filter> -->
   <app-seat-map
   *ngIf="filteredSeatData"
     [seatRows]="filteredSeatData"
     (seatSelected)="onSeatSelected($event)"
+     (individualSelected)="individualseatSelected($event)"
     [isSupervisor]="loggedInUserRole === 'supervisor'"
     [teamMembers]="myTeam"
     (bulkBooked)="onBulkBooking($event)"
