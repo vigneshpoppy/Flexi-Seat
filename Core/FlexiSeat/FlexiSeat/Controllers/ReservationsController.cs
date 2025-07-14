@@ -38,6 +38,14 @@ namespace FlexiSeat.Controllers
             if (reservedBy == null)
               return NotFound($"ReservedBy user with ADID '{reservedByAdid}' not found.");
 
+            var isUserAlreadyBooked = await _context.Reservations
+                .AnyAsync(r => r.ReservedDate == dto.ReservedDate && r.UserADID == userAdid);
+
+            if (isUserAlreadyBooked)
+            {
+                return Conflict("User already reserved for the selected date.");
+            }
+
             // Check if Seat exists
             var seat = await _context.Seats
                        .FirstOrDefaultAsync(s => s.ID == dto.SeatID && s.IsActive);

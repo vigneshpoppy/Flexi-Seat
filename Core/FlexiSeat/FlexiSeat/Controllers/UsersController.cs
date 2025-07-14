@@ -62,13 +62,13 @@ namespace FlexiSeat.Controllers
             string tempPassword = PasswordHelper.Generate();
             string hashedPassword = PasswordHelper.HashPassword(tempPassword);
 
-            /*Need to remove - writing pwd to file logic - only for test purpose*/
-            var logFilePath = "Log.txt";
+            ///*Need to remove - writing pwd to file logic - only for test purpose*/
+            //var logFilePath = "Log.txt";
 
-            using (var writer = new StreamWriter(logFilePath, append: true))
-            {
-              writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | ADID: {normalizedADID} | Password: {tempPassword}");
-            }
+            //using (var writer = new StreamWriter(logFilePath, append: true))
+            //{
+            //  writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | ADID: {normalizedADID} | Password: {tempPassword}");
+            //}
 
             var userLogin = new UserLogin
             {
@@ -79,11 +79,10 @@ namespace FlexiSeat.Controllers
             _context.UserLogins.Add(userLogin);
             await _context.SaveChangesAsync();
 
-        /*Need to enable once email server creds are avlbl
-            var toEmail = userLogin.ADID + "@yourdomain.com";
+        
+            var toEmail = userLogin.ADID + "@ups.com";
 
-            await _emailService.SendEmailAsync(toEmail, "UPS Flexiseat - Temporary Password", $"Your new temporary password is: {tempPassword}");
-          */
+            await _emailService.SendEmailAsync(toEmail,"", "UPS Flexiseat - Temporary Password", $"Your new temporary password is: {tempPassword}");
 
       // 6. Return success
       return CreatedAtAction(nameof(GetUserByADID), new { adid = user.ADID }, new

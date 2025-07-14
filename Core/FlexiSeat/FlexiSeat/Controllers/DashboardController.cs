@@ -54,7 +54,10 @@ namespace FlexiSeat.Controllers
 
             int checkedInCount = reservations.Count(r => !string.IsNullOrEmpty(r.CheckInTime));
             int confirmedCount = reservations.Count(r => r.Status.ToLower() == "confirmed");
-            int availableCount = reservations.Count(r => r.Status.ToLower() == "available");
+
+            // Compute available seats by subtracting reserved ones
+            var reservedSeatIds = reservations.Select(r => r.SeatID).Distinct().ToHashSet();
+            int availableCount = activeSeats.Count(s => !reservedSeatIds.Contains(s.ID));
 
             string Format(int count) =>
                 $"{count},{(totalSeats == 0 ? 0 : (int)Math.Round((double)count * 100 / totalSeats))}%";
