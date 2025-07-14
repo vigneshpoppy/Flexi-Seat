@@ -8,20 +8,27 @@ import { AuthServiceService } from '../Service/auth-service.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  // ✅ Declare these variables
-  username: string = '';
-  password: string = '';
-  error: string = '';
+  username = '';
+  password = '';
+  error   = '';
 
-  constructor(private router: Router,private authservice:AuthServiceService) {}
+  constructor(private auth: AuthServiceService, private router: Router) {}
 
-  login() {
-    if (this.username === 'admin' && this.password === 'admin') {
-
-      this.authservice.Login(this.username,this.password);
-      this.router.navigate(['/seat']);
-    } else {
-      this.error = 'Invalid username or password';
+  login(): void {
+    if (!this.username.trim() || !this.password) {
+      this.error = 'Please enter username and password';
+      return;
     }
+
+    this.auth.login(this.username, this.password).subscribe({
+      next: (data: string) => {
+        console.log(data);
+        this.router.navigate(['/seat']);
+      },
+      error: err => {
+        console.error(err);
+        this.error = 'Invalid username or password';
+      }
+    });
   }
 }
