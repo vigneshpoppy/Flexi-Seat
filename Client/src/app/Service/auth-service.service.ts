@@ -4,13 +4,12 @@ import { Router } from '@angular/router';
 import { Observable, tap, map } from 'rxjs';
 
 interface LoginRequest {
-  username: string;
+  adid: string;
   password: string;
 }
 
 interface LoginResponse {
-  accessToken: string;   // <-- whatever your backend returns
-  roles: string[];       // e.g. ["admin","editor"]
+  token: string;
 }
 
 @Injectable({
@@ -22,12 +21,10 @@ export class AuthServiceService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  /** Sends credentials to the API and stores everything that comes back. */
-  login(username: string, password: string): Observable<string> {
-    const payload: LoginRequest = { username, password };
-
-    return this.http.post<string>('http://localhost:39752/api/Login', payload);
-  }
+ login(username: string, password: string): Observable<LoginResponse> {
+  const payload = { adid: username, password: password };
+  return this.http.post<LoginResponse>('http://localhost:39752/api/Login/Login', payload);
+}
 
   /** Local‑storage helpers */
   private setRoles(roles: string[]) {
