@@ -182,3 +182,23 @@
     max-width: 90%;
   }
 }
+
+.nav-button {
+    background: rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    padding: 16px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    min-width: 180px;
+}
+.nav-button:hover,.nav-button:focus {
+    transform: translateY(-4px) scale(1.03);
+    background-color: #e0f2fe;
+}
