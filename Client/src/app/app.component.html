@@ -2,12 +2,22 @@
   <img src="assets/ups-logo.png" alt="UPS Logo" class="logo" />
   <h1 class="title">Flexi Seat Booking</h1>
 </header>
+<div class="date-picker-container">
+  <label for="booking-date">Select Booking Date:</label>
+  <input
+    id="booking-date"
+    type="date"
+     [min]="today"
+    [(ngModel)]="selectedDate"
+    (change)="onDateSelected()"
+  />
+</div>
 
 <!-- <app-seat-admin></app-seat-admin> -->
 <div class="section fade-section">
-  <app-manager-seat-filter (filterRegions)="applyRegionFilter($event)"(manager)="CheckManager($event)"></app-manager-seat-filter>
+  <!-- <app-manager-seat-filter (filterRegions)="applyRegionFilter($event)"(manager)="CheckManager($event)"></app-manager-seat-filter> -->
   <app-seat-map
-  *ngIf="isManagerSelected"
+  *ngIf="filteredSeatData"
     [seatRows]="filteredSeatData"
     (seatSelected)="onSeatSelected($event)"
     [isSupervisor]="loggedInUserRole === 'supervisor'"

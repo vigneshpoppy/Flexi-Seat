@@ -23,6 +23,7 @@ export class SeatMapComponent implements OnChanges {
   chunkedSeatRows: Seat[][] = [];
 
  showPopup = false;
+selectedSeat: Seat | null = null;
   
 
   ngOnChanges(changes: SimpleChanges) {
@@ -34,6 +35,7 @@ export class SeatMapComponent implements OnChanges {
 
 
   createChunks(){
+    console.log("Data here "+this.seatRows);
     
     const perRow = 8;
   for (let i = 0; i < this.seatRows.length; i += perRow) {
@@ -43,10 +45,37 @@ export class SeatMapComponent implements OnChanges {
   
   }
   onSeatClick(seat: Seat) {
-    if (seat.status === 'booked') return;
+    console.log(seat);
+    
+    if (seat.status != 'available') return;
+      // Set the selected seat to open confirmation modal
+  this.selectedSeat = seat;
     this.seatSelected.emit(seat);
   }
 
+bookSelectedSeat() {
+  console.log("Booking selection"+this.selectedSeat);
+  
+  if (this.selectedSeat) {
+    this.selectedSeat.status = 'booked'; // or 'booked' based on your flow
+    this.seatSelected.emit(this.selectedSeat);
+    this.selectedSeat = null;
+  }
+}
+
+
+cancelSeat() {
+  if (this.selectedSeat) {
+      console.log("Cancel selection"+this.selectedSeat);
+    this.selectedSeat.status = 'available';
+    this.seatSelected.emit(this.selectedSeat);
+    this.selectedSeat = null;
+  }
+}
+
+closeConfirmation() {
+  this.selectedSeat = null;
+}
 //  Bulk Booking: Show team popup
   openBulkBookingPopup() {
     this.showPopup = true;
@@ -76,4 +105,7 @@ export class SeatMapComponent implements OnChanges {
     this.closePopup();
 
 }
+
+
+
 }
