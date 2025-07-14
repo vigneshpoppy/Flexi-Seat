@@ -1,0 +1,18 @@
+<div class="ticket-container">
+  <h2>Raise a Ticket</h2>
+ 
+  <form [formGroup]="ticketForm" (ngSubmit)="raiseTicket()">
+    <label for="message">Your Message</label>
+    <textarea id="message" formControlName="message" rows="5"
+              placeholder="Type your need or suggestion..."></textarea>
+ 
+    <div *ngIf="messageControl?.touched && messageControl?.errors as errors">
+        <small *ngIf="errors['required']">Message is required.</small>
+        <small *ngIf="errors['minlength']">Minimum 10 characters.</small>
+    </div>
+ 
+    <button type="submit" [disabled]="ticketForm.invalid">Raise Ticket</button>
+  </form>
+ 
+  <div *ngIf="ticketRaised" class="success">✅ Ticket raised successfully!</div>
+</div>

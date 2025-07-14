@@ -1,4 +1,20 @@
  <div class="seat-map">
+<button *ngIf="isSupervisor" class="bulk-book-button" (click)="openBulkBookingPopup()">
+   Bulk Book Seats
+</button>
+<!-- Individual Seat Confirmation Modal -->
+<div class="seat-confirmation-modal" *ngIf="selectedSeat">
+  <h3>Seat Confirmation</h3>
+  <p>Seat <strong>{{ selectedSeat.number }}</strong> is currently <strong>{{ selectedSeat.status }}</strong>.</p>
+
+  
+  <div class="modal-actions">
+    <button (click)="bookSelectedSeat()">✅ Book</button>
+    <button (click)="cancelSeat()">❌ Cancel</button>
+    <button class="close" (click)="closeConfirmation()">Close</button>
+  </div>
+</div>
+
     <div *ngFor="let row of chunkedSeatRows" class="seat-row">
       <div *ngFor="let seat of row"
            [ngClass]="seat.status"
@@ -8,21 +24,7 @@
       </div>
     </div>
   </div>
-  <button *ngIf="isSupervisor" class="bulk-book-button" (click)="openBulkBookingPopup()">
-   Bulk Book Seats
-</button>
-<!-- Individual Seat Confirmation Modal -->
-<div class="seat-confirmation-modal" *ngIf="selectedSeat">
-  <h3>Seat Confirmation</h3>
-  <p>Seat <strong>{{ selectedSeat.id }}</strong> is currently <strong>{{ selectedSeat.status }}</strong>.</p>
-
   
-  <div class="modal-actions">
-    <button (click)="bookSelectedSeat()">✅ Book</button>
-    <button (click)="cancelSeat()">❌ Cancel</button>
-    <button class="close" (click)="closeConfirmation()">Close</button>
-  </div>
-</div>
   
   <div class="legend">
     <div class="legend-item">

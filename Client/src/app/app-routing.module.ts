@@ -14,6 +14,7 @@ import { ZoneAdminComponent } from './zone-admin/zone-admin.component';
 import { authGuard } from './Service/Gaurds/auth.guard';
 import { ZoneViewerComponent } from './zone-viewer/zone-viewer.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { TicketRaisingComponent } from './ticket-raising/ticket-raising.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  // Default route → login
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'checkin-client', component: CheckinClientComponent },
   { path: 'zone-viewer', component: ZoneViewerComponent },
   { path: 'dashboard', component: AdminDashboardComponent },
+  { path: 'raiseticket', component: TicketRaisingComponent},
   { path: '**', redirectTo: '/login' }  // Wildcard to catch undefined routes
 ];
 
