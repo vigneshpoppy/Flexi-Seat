@@ -8,7 +8,7 @@ namespace FlexiSeat.DTO.ReservationDTOs
         public string ZoneName { get; set; }
         public string? ManagerADID { get; set; }
         public string? ManagerName { get; set; }
-        public bool isBooked { get; set; }
+        public string Status { get; set; }
         public bool IsActive { get; set; }
   }
 }

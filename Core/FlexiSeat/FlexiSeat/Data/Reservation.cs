@@ -46,7 +46,9 @@ namespace FlexiSeat.Data
     [Required]
     public bool IsNotified { get; set; }
 
-    [Required]
+    public string Status { get; set; }
+
+        [Required]
     [StringLength(20)]
     public string ReservedByADID
     {

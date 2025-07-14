@@ -59,6 +59,7 @@ namespace FlexiSeat.Controllers
               ReservedDate = dto.ReservedDate.Date,
               InsertedOn = DateTime.Now,
               IsNotified = false,
+              Status = "Booked",
               ReservedByADID = reservedByAdid
             };
 
@@ -66,6 +67,68 @@ namespace FlexiSeat.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Reservation created successfully.", reservation.ID });
+        }
+
+        [HttpPost("BulkCreate")]
+        public async Task<IActionResult> BulkCreateReservations([FromBody] List<CreateReservationDTO> reservations)
+        {
+            if (reservations == null || !reservations.Any())
+                return BadRequest("No reservation data provided.");
+
+            var now = DateTime.UtcNow;
+            var reserved = new List<Reservation>();
+            var skipped = new List<object>();
+
+            foreach (var dto in reservations)
+            {
+                var exists = await _context.Reservations.AnyAsync(r =>
+                    r.SeatID == dto.SeatID &&
+                    r.ReservedDate == dto.ReservedDate
+                );
+
+                if (exists)
+                {
+                    skipped.Add(new
+                    {
+                        dto.SeatID,
+                        dto.ReservedDate,
+                        Reason = "Seat already reserved for the selected date and time."
+                    });
+                    continue;
+                }
+
+                var reservation = new Reservation
+                {
+                    UserADID = dto.UserADID,
+                    SeatID = dto.SeatID,
+                    ReservedDate = dto.ReservedDate,
+                    InsertedOn = now,
+                    UpdatedOn = null,
+                    IsNotified = false,
+                    ReservedByADID = dto.ReservedByADID,
+                    Status = "Booked"
+                };
+
+                reserved.Add(reservation);
+                _context.Reservations.Add(reservation);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Reserved = reserved.Select(r => new
+                {
+                    r.ID,
+                    r.UserADID,
+                    r.SeatID,
+                    r.ReservedDate,
+                    r.CheckInTime,
+                    r.CheckOutTime,
+                    r.ReservedByADID
+                }),
+                Skipped = skipped
+            });
         }
 
         [HttpGet("AvailableZones")]
@@ -151,46 +214,56 @@ namespace FlexiSeat.Controllers
           return Ok(result);
         }
 
-        [HttpGet("zone/{zoneId}/seats")]
-        public async Task<IActionResult> GetSeatsByZoneAndDate(int zoneId, [FromQuery] DateTime date)
+        [HttpGet("zone/{zoneIds}/seats")]
+        public async Task<IActionResult> GetSeatsByZoneAndDate(string zoneIds, [FromQuery] DateTime date)
         {
-          // Validate zone
-          var zone = await _context.Zones.FirstOrDefaultAsync(z => z.ID == zoneId);
-          if (zone == null)
-            return NotFound($"Zone with ID {zoneId} not found.");
+            List<GetReservationSeatDTO> lstReservations = new List<GetReservationSeatDTO>();
+            var zoneIdList = zoneIds.Split(',');
+            foreach(var zId in zoneIdList)
+            {
+                var zoneId = Convert.ToInt32(zId);
+                // Validate zone
+                var zone = await _context.Zones.FirstOrDefaultAsync(z => z.ID == zoneId);
+                if (zone == null)
+                    return NotFound($"Zone with ID {zoneId} not found.");
 
-          // Get manager info from OrgSeatPool
-          var orgSeatPool = await _context.OrgSeatPools
-              .Include(p => p.Manager)
-              .FirstOrDefaultAsync(p => p.ZoneId == zoneId);
+                // Get manager info from OrgSeatPool
+                var orgSeatPool = await _context.OrgSeatPools
+                    .Include(p => p.Manager)
+                    .FirstOrDefaultAsync(p => p.ZoneId == zoneId);
 
-          string? managerAdid = orgSeatPool?.ManagerADID;
-          string? managerName = orgSeatPool?.Manager?.Name;
+                string? managerAdid = orgSeatPool?.ManagerADID;
+                string? managerName = orgSeatPool?.Manager?.Name;
 
-          // Get seat IDs booked on given date in this zone
-          var bookedSeatIds = await _context.Reservations
-              .Where(r => r.ReservedDate.Date == date.Date && r.Seat.ZoneId == zoneId)
-              .Select(r => r.SeatID)
-              .ToListAsync();
+                // Get seat IDs booked on given date in this zone
+                var bookedSeatIds = await _context.Reservations
+                    .Where(r => r.ReservedDate.Date == date.Date && r.Seat.ZoneId == zoneId)
+                    .Select(r => r.SeatID)
+                    .ToListAsync();
 
-          // Get all seats in the zone
-          var seats = await _context.Seats
-              .Where(s => s.ZoneId == zoneId)
-              .ToListAsync();
+                var reservations = await _context.Reservations
+                    .Where(r => r.ReservedDate.Date == date.Date && r.Seat.ZoneId == zoneId)
+                    .ToListAsync();
 
-          var result = seats.Select(s => new GetReservationSeatDTO
-          {
-            ID = s.ID,
-            Number = s.Number,
-            ZoneId = s.ZoneId,
-            ZoneName = zone.Name,
-            ManagerADID = managerAdid,
-            ManagerName = managerName,
-            isBooked = bookedSeatIds.Contains(s.ID),
-            IsActive = s.IsActive
-          }).ToList();
+                // Get all seats in the zone
+                var seats = await _context.Seats
+                  .Where(s => s.ZoneId == zoneId)
+                  .ToListAsync();
 
-          return Ok(result);
+                var result = seats.Select(s => new GetReservationSeatDTO
+                {
+                    ID = s.ID,
+                    Number = s.Number,
+                    ZoneId = s.ZoneId,
+                    ZoneName = zone.Name,
+                    ManagerADID = managerAdid,
+                    ManagerName = managerName,
+                    Status = bookedSeatIds.Contains(s.ID) ? reservations.Where(r => r.SeatID == s.ID).Select(r => r.Status).FirstOrDefault() : "Available",
+                    IsActive = s.IsActive
+                });
+                lstReservations.AddRange(result);
+            }
+            return Ok(lstReservations);
         }
     }
 }
