@@ -3,9 +3,14 @@ using FlexiSeat.Models;
 using FlexiSeat.Services;
 using FlexiSeat.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+var secretString = builder.Configuration.GetValue<string>("TokenKey");
 
 // Add services to the container.
 
@@ -17,6 +22,48 @@ builder.Services.AddDbContext<FlexiSeatDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnectionString")));
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+builder.Services.AddSwaggerGen(setup =>
+{
+    // Include 'SecurityScheme' to use JWT Authentication
+    var jwtSecurityScheme = new OpenApiSecurityScheme
+    {
+        BearerFormat = "JWT",
+        Name = "JWT Authentication",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Description = "Put **_ONLY_** your JWT Bearer token on textbox below!",
+
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+
+    setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+
+    setup.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        { jwtSecurityScheme, Array.Empty<string>() }
+    });
+
+});
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretString!)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -38,6 +85,7 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

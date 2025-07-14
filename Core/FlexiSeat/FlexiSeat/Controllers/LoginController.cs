@@ -5,6 +5,12 @@ using FlexiSeat.Helpers;
 using FlexiSeat.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FlexiSeat.Controllers
 {
@@ -14,101 +20,131 @@ namespace FlexiSeat.Controllers
     {
         private readonly FlexiSeatDbContext _context;
         private readonly IEmailService _emailService;
-        public LoginController(FlexiSeatDbContext context, IEmailService emailService)
+        private readonly SymmetricSecurityKey _key;
+        public LoginController(FlexiSeatDbContext context, IEmailService emailService, IConfiguration config)
         {
-          _context = context;
-          _emailService = emailService;
+            _context = context;
+            _emailService = emailService;
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]!));
         }
 
         [HttpPost("")]
         public async Task<IActionResult> Login([FromBody] LoginDTO dto)
         {
-          var user = await _context.UserLogins.FindAsync(dto.ADID);
-          if (user == null || !PasswordHelper.VerifyPassword(dto.Password, user.PasswordHash))
-            return Unauthorized("Invalid ADID/Password");
+            var user = await _context.UserLogins.FindAsync(dto.ADID);
+            if (user == null || !PasswordHelper.VerifyPassword(dto.Password, user.PasswordHash))
+                return Unauthorized("Invalid ADID/Password");
 
-          return Ok();
+            var userData = await _context.Users.FirstOrDefaultAsync(f => f.ADID == dto.ADID);
+            var token = await CreateToken(userData!);
+            return Ok(token);
+        }
+
+        private async Task<string> CreateToken(User appUser)
+        {
+            var role = await _context.Roles.FirstOrDefaultAsync(f => f.Id == appUser.RoleId);
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.NameId, appUser.ADID.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, appUser.Name),
+                new Claim("Lead ADID", appUser!.LeadADID!.ToString()),
+                new Claim("Manager ADID", appUser!.ManagerADID!.ToString()),
+                new Claim("Role", role!.Name)
+            };
+
+            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(7),
+                SigningCredentials = creds
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO dto)
         {
-          if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-          // Normalize ADID
-          string normalizedAdid = dto.ADID.Trim().ToUpper();
+            // Normalize ADID
+            string normalizedAdid = dto.ADID.Trim().ToUpper();
 
-          // Find user login record
-          var userLogin = await _context.UserLogins.FindAsync(normalizedAdid);
-          if (userLogin == null)
-              return Unauthorized("Invalid ADID/Password");
+            // Find user login record
+            var userLogin = await _context.UserLogins.FindAsync(normalizedAdid);
+            if (userLogin == null)
+                return Unauthorized("Invalid ADID/Password");
 
-          // Verify old password
-          var isOldPwdMatching = PasswordHelper.VerifyPassword(dto.OldPassword, userLogin.PasswordHash);
+            // Verify old password
+            var isOldPwdMatching = PasswordHelper.VerifyPassword(dto.OldPassword, userLogin.PasswordHash);
 
-          if(!isOldPwdMatching)
-          {
-            return Unauthorized(new { message = "Old password is incorrect." });
-          }
+            if (!isOldPwdMatching)
+            {
+                return Unauthorized(new { message = "Old password is incorrect." });
+            }
 
-          /*Need to remove - writing pwd to file logic - only for test purpose*/
-          var logFilePath = "Log.txt";
+            /*Need to remove - writing pwd to file logic - only for test purpose*/
+            var logFilePath = "Log.txt";
 
-          using (var writer = new StreamWriter(logFilePath, append: true))
-          {
-            writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | ADID: {normalizedAdid} | Password: {dto.NewPassword}");
-          }
+            using (var writer = new StreamWriter(logFilePath, append: true))
+            {
+                writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | ADID: {normalizedAdid} | Password: {dto.NewPassword}");
+            }
 
-      //Hash new password & update
-      userLogin.PasswordHash = PasswordHelper.HashPassword(dto.NewPassword);
-          await _context.SaveChangesAsync();
+            //Hash new password & update
+            userLogin.PasswordHash = PasswordHelper.HashPassword(dto.NewPassword);
+            await _context.SaveChangesAsync();
 
-          return Ok(new { message = "Password changed successfully." });
+            return Ok(new { message = "Password changed successfully." });
         }
 
         [HttpPost("ForgotPassword")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO dto)
         {
-          if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-          // Normalize ADID
-          string normalizedAdid = dto.ADID.Trim().ToUpper();
+            // Normalize ADID
+            string normalizedAdid = dto.ADID.Trim().ToUpper();
 
-          // Find user login record
-          var userLogin = await _context.UserLogins.FindAsync(normalizedAdid);
-          if (userLogin == null)
-            return Unauthorized("Invalid ADID");
+            // Find user login record
+            var userLogin = await _context.UserLogins.FindAsync(normalizedAdid);
+            if (userLogin == null)
+                return Unauthorized("Invalid ADID");
 
-          // Generate a new temporary password (for example: 8 random characters)
-          string tempPassword = PasswordHelper.Generate();
+            // Generate a new temporary password (for example: 8 random characters)
+            string tempPassword = PasswordHelper.Generate();
 
-          /*Need to remove - writing pwd to file logic - only for test purpose*/
-          var logFilePath = "Log.txt";
+            /*Need to remove - writing pwd to file logic - only for test purpose*/
+            var logFilePath = "Log.txt";
 
-          using (var writer = new StreamWriter(logFilePath, append: true))
-          {
-            writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | ADID: {normalizedAdid} | Password: {tempPassword}");
-          }
+            using (var writer = new StreamWriter(logFilePath, append: true))
+            {
+                writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | ADID: {normalizedAdid} | Password: {tempPassword}");
+            }
 
-          // Hash the temporary password
-          userLogin.PasswordHash = PasswordHelper.HashPassword(tempPassword);
+            // Hash the temporary password
+            userLogin.PasswordHash = PasswordHelper.HashPassword(tempPassword);
 
-          // Save changes
-          await _context.SaveChangesAsync();
+            // Save changes
+            await _context.SaveChangesAsync();
 
-        /*Need to enable once email server creds are avlbl
-          var toEmail = userLogin.ADID + "@yourdomain.com";
+            /*Need to enable once email server creds are avlbl
+              var toEmail = userLogin.ADID + "@yourdomain.com";
 
-          await _emailService.SendEmailAsync(toEmail, "UPS Flexiseat - Temporary Password", $"Your new temporary password is: {tempPassword}");
-        */
+              await _emailService.SendEmailAsync(toEmail, "UPS Flexiseat - Temporary Password", $"Your new temporary password is: {tempPassword}");
+            */
 
-          return Ok(new
-          {
-              message = "Temporary password has been set. Please check your email."
-          });
+            return Ok(new
+            {
+                message = "Temporary password has been set. Please check your email."
+            });
         }
 
-  }
+    }
 }
