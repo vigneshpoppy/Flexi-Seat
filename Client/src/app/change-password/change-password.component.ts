@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router'; // ✅ Import Router
+import { Router } from '@angular/router';
+import { AuthServiceService } from '../Service/auth-service.service';
+import { NotificationService } from '../Service/notification.service';
 
 @Component({
   selector: 'app-change-password',
@@ -7,38 +9,38 @@ import { Router } from '@angular/router'; // ✅ Import Router
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent {
+  adid = '';
   oldPassword = '';
   newPassword = '';
-  confirmPassword = '';
   error = '';
   success = '';
 
-  constructor(private router: Router) {}  // ✅ Inject Router
+  constructor(
+    private router: Router,
+    private authService: AuthServiceService,
+    private notify: NotificationService
+  ) {}
 
   changePassword() {
     this.error = '';
     this.success = '';
 
-    if (!this.oldPassword || !this.newPassword || !this.confirmPassword) {
-      this.error = 'All fields are required';
+    if (!this.adid.trim() || !this.oldPassword || !this.newPassword) {
+      this.notify.showError('All fields are required');
       return;
     }
 
-    if (this.newPassword !== this.confirmPassword) {
-      this.error = 'New passwords do not match';
-      return;
-    }
-
-    // ✅ Simulate password change logic (replace with real API call)
-    if (this.oldPassword === 'admin') {
-      this.success = 'Password changed successfully! Redirecting to login...';
-
-      // ✅ Redirect to login after 2 seconds
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      }, 2000);
-    } else {
-      this.error = 'Old password is incorrect';
-    }
+    this.authService.changePassword(this.adid, this.oldPassword, this.newPassword).subscribe({
+      next: (res) => {
+        this.notify.showSuccess(res.message || 'Password changed successfully!');
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
+      },
+      error: (err) => {
+        console.error('Password change error:', err);
+        this.notify.showError(err?.error?.message || 'Password change failed');
+      }
+    });
   }
 }
