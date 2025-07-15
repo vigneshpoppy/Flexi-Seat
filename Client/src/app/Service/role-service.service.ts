@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PostRole, Role } from '../Models/role';
 import { NotificationService } from './notification.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class RoleServiceService {
 
 constructor(private http:HttpClient ) {}
 
-localBaseUrl="http://localhost:39752/api/Roles/"
+localBaseUrl=`${environment.apiUrl}/api/Roles/`
   getRoleAllData(): Observable<any> {
     return this.http.get(this.localBaseUrl+"ALl");
   }

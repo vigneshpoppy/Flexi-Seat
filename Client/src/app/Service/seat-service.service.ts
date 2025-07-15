@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SeatPatchpayload, Seatpostpayload } from '../Models/seat';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class SeatServiceService {
   constructor(private http:HttpClient ) {}
 
 
-  localBaseUrl="http://localhost:39752/api/Seats/"
+  localBaseUrl=`${environment.apiUrl}/api/Seats/`
     getSeatAllData(): Observable<any> {
       return this.http.get(this.localBaseUrl+"GetAll");
     }

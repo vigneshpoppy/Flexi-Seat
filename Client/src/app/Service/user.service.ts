@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class UserService {
   constructor(private http:HttpClient ) {}
   
   
-    localBaseUrl="http://localhost:39752/api/Users/"
+    localBaseUrl=`${environment.apiUrl}/api/Users/`
       // getSeatAllData(): Observable<any> {
       //   return this.http.get(this.localBaseUrl+"GetAll");
       // }

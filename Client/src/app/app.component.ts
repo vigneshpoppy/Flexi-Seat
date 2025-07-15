@@ -80,7 +80,7 @@ console.log(this.filteredSeatData);
 }
 
 fetchTeamMembers(){
-this.userService.getTeamMembersByManagerID(this.managerAdid).subscribe({
+this.userService.getTeamMembersByManagerID(this.userid).subscribe({
     next:result=>{
      // this.allSeatData=result;
      this.myTeam=result;
