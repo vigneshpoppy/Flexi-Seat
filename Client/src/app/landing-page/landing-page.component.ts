@@ -18,7 +18,7 @@ export class LandingPageComponent implements AfterViewInit, OnInit {
 
   userid: string | null = null;
   isLoginPage: boolean = false;
-
+  showChatBot:boolean=false
   constructor(private notificationService: NotificationService, private router: Router) {}
 
   ngOnInit(): void {
@@ -29,7 +29,13 @@ export class LandingPageComponent implements AfterViewInit, OnInit {
       .subscribe(() => {
         this.isLoginPage = this.router.url === '/login';
       });
-  }
+
+      this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.showChatBot = event.urlAfterRedirects.startsWith('/seat');
+      }
+  })
+}
 
   ngAfterViewInit() {
     this.notificationService.register(this.notifier);
