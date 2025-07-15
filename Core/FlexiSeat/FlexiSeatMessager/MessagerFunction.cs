@@ -25,7 +25,7 @@ namespace FlexiSeatMessager
         }
 
         [Function("MessagerFunction")]
-        public void Run([TimerTrigger("0 09 05 * * *")] TimerInfo myTimer)
+        public void Run([TimerTrigger("0 0 7 * * *")] TimerInfo myTimer)
         {
             _logger.LogInformation($"Timer trigger function started at: {DateTime.Now}");
 

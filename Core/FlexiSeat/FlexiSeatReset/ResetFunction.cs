@@ -6,19 +6,19 @@ using Microsoft.Extensions.Logging;
 
 namespace FlexiSeatReset
 {
-    public class Function1
+    public class ResetFunction
     {
         private readonly ILogger _logger;
         private readonly FlexiSeatDbContext _context;
 
-        public Function1(ILoggerFactory loggerFactory, FlexiSeatDbContext context)
+        public ResetFunction(ILoggerFactory loggerFactory, FlexiSeatDbContext context)
         {
-            _logger = loggerFactory.CreateLogger<Function1>();
+            _logger = loggerFactory.CreateLogger<ResetFunction>();
             _context = context;
         }
 
-        [Function("Function1")]
-        public void Run([TimerTrigger("0 57 02 * * *")] TimerInfo myTimer)
+        [Function("ResetFunction")]
+        public void Run([TimerTrigger("0 0 22 * * *")] TimerInfo myTimer)
         {
             _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             
