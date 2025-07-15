@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthServiceService } from '../Service/auth-service.service';
 import { jwtDecode } from 'jwt-decode';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { NotificationService } from '../Service/notification.service';
 
 @Component({

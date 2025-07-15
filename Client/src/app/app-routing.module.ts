@@ -15,6 +15,7 @@ import { authGuard } from './Service/Gaurds/auth.guard';
 import { ZoneViewerComponent } from './zone-viewer/zone-viewer.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { TicketRaisingComponent } from './ticket-raising/ticket-raising.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  // Default route → login
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'zone-viewer', component: ZoneViewerComponent },
   { path: 'dashboard', component: AdminDashboardComponent },
   { path: 'raiseticket', component: TicketRaisingComponent},
+  { path: 'bot', component: ChatbotComponent},
   { path: '**', redirectTo: '/login' }  // Wildcard to catch undefined routes
 ];
 

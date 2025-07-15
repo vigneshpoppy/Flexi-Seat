@@ -30,6 +30,7 @@ import { ZoneViewerComponent } from './zone-viewer/zone-viewer.component';
 
 import { NgChartsModule } from 'ng2-charts';
 import { TicketRaisingComponent } from './ticket-raising/ticket-raising.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +49,8 @@ import { TicketRaisingComponent } from './ticket-raising/ticket-raising.componen
     ChangePasswordComponent,
     ResetPasswordComponent,
     ZoneViewerComponent,
-    TicketRaisingComponent
+    TicketRaisingComponent,
+    ChatbotComponent
   ],
   imports: [
     BrowserModule,
