@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,14 +6,18 @@ import { Router } from '@angular/router';
   templateUrl: './admin-page.component.html',
   styleUrls: ['./admin-page.component.css']
 })
-export class AdminPageComponent {
+export class AdminPageComponent implements OnInit {
 
+  role: string = '';
 
 goToEmployeeManagement() {
 this.router.navigate(['/employeemanagement']);
 }
 
   constructor(private router: Router) {}
+  ngOnInit(): void {
+    this.role = localStorage.getItem('roles') || '';
+  }
 
   goToSeatManagement() {
     this.router.navigate(['/seatmanagement']);

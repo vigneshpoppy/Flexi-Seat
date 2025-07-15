@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Role } from '../Models/role';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class OrgpoolService {
 
 
 constructor(private http:HttpClient ) {}
-localBaseUrl="http://localhost:39752/api/OrgSeatPools/"
+localBaseUrl=`${environment.apiUrl}/api/OrgSeatPools/`
   getOrgAllData(): Observable<any> {
     return this.http.get(this.localBaseUrl+"ALl");
   }

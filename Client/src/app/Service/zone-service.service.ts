@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PostZone } from '../Models/zone';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class ZoneServiceService {
 
 constructor(private http:HttpClient ) {}
 
-localBaseUrl="http://localhost:39752/api/Zones/"
+localBaseUrl=`${environment.apiUrl}/api/Zones/`
   getZoneAllData(): Observable<any> {
     return this.http.get(this.localBaseUrl+"All");
   }

@@ -50,7 +50,7 @@ namespace FlexiSeat.Controllers
                 new Claim("Role", role!.Name)                
             };
 
-            if(!string.IsNullOrWhiteSpace(Convert.ToString(appUser!.Manager)))
+            if(!string.IsNullOrWhiteSpace(Convert.ToString(appUser!.ManagerADID)))
             {
                 //var managerClaim = new Claim("Manager ADID", appUser!.Manager);
                 claims.Add(new Claim("Manager ADID", Convert.ToString(appUser!.ManagerADID)));
