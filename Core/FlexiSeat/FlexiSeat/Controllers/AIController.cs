@@ -17,16 +17,18 @@ namespace FlexiSeat.Controllers
     {
         private readonly FlexiSeatDbContext _context;
         private readonly string _connectionString;
-        private readonly OpenApiSettings _settings;
-        public AIController(FlexiSeatDbContext context, IConfiguration configuration, IOptions<OpenApiSettings> options)
+        private readonly string _openAPIConnectionString;
+        private readonly string _openAPISecret;
+        public AIController(FlexiSeatDbContext context, IConfiguration configuration)
         {
-            _settings = options.Value;
             _context = context;
             _connectionString = configuration.GetConnectionString("MyConnectionString");
+            _openAPIConnectionString = configuration["OpenApiSettings:ConnectionString"];
+            _openAPISecret = configuration["OpenApiSettings:Secret"];
         }
 
-        [HttpPost("bot")]
-        public async Task<IActionResult> GenerateSQLFromPrompt([FromBody] string prompt, [FromQuery] string adid)
+        [HttpGet("bot")]
+        public async Task<IActionResult> GenerateSQLFromPrompt([FromQuery] string adid, [FromQuery] string prompt)
         {
             try
             {
@@ -42,7 +44,7 @@ namespace FlexiSeat.Controllers
 
 
                 var httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_settings.Secret}");
+                httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_openAPISecret}");
 
                 string schemaFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "schema.txt");
                 string schema = await System.IO.File.ReadAllTextAsync(schemaFilePath);
@@ -57,7 +59,7 @@ namespace FlexiSeat.Controllers
                 }
                 };
 
-                var response = await httpClient.PostAsJsonAsync(_settings.ConnectionString, request);
+                var response = await httpClient.PostAsJsonAsync(_openAPIConnectionString, request);
                 var result = await response.Content.ReadFromJsonAsync<OpenAIResponse>();
                 var res = result?.Choices?.FirstOrDefault()?.Message?.Content;
                 var final = await ExecuteSqlQueryAsync(res);
@@ -99,7 +101,7 @@ namespace FlexiSeat.Controllers
             string jsonString = JsonSerializer.Serialize(results, options);
 
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_settings.Secret}");
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_openAPISecret}");
 
             var request = new
             {
@@ -107,11 +109,11 @@ namespace FlexiSeat.Controllers
                 messages = new[]
                 {
             new { role = "system", content = $"Write the json data into human readable sentence that makes sense" },
-            new { role = "user", content = $"json:\n{jsonString}\n\nQuestion: Write the json data into human readable sentence that makes sense. Just precise info no additional content. Arrange each sentence line by line" }
+            new { role = "user", content = $"json:\n{jsonString}\n\nQuestion: Write the json data into human readable sentence that makes sense. Just precise info no additional content. Arrange each sentence line by line and remove minus and if it appears I have to render in UI so based on that provide response" }
                 }
             };
 
-            var response = await httpClient.PostAsJsonAsync(_settings.ConnectionString,  request);
+            var response = await httpClient.PostAsJsonAsync(_openAPIConnectionString, request);
             string content = await response.Content.ReadAsStringAsync();
 
             using var doc = JsonDocument.Parse(content);

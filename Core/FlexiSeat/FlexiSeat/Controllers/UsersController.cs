@@ -312,15 +312,18 @@ namespace FlexiSeat.Controllers
                 return BadRequest(new { message = "ADID is required." });
 
             var user = await _context.Users
-                .Include(u => u.Role)
-                .Include(u => u.Lead)
-                .Include(u => u.Manager)
-                .FirstOrDefaultAsync(u => u.ManagerADID == adid.Trim().ToUpper());
+                .FirstOrDefaultAsync(u => u.ADID == adid.Trim().ToUpper());
 
             if (user == null)
                 return NotFound(new { message = $"User with ADID '{adid.Trim().ToUpper()}' not found." });
 
-            var dto = new GetUserDTO
+            var users = await _context.Users
+                .Include(u => u.Role)
+                .Include(u => u.Lead)
+                .Include(u => u.Manager)
+                .Where(u => u.ManagerADID == adid.Trim().ToUpper()).ToListAsync();
+
+            var result = users.Select(user => new GetUserDTO
             {
                 ADID = user.ADID,
                 Name = user.Name,
@@ -332,11 +335,10 @@ namespace FlexiSeat.Controllers
                 LeadName = user.Lead?.Name,
                 ManagerADID = user.ManagerADID,
                 ManagerName = user.Manager?.Name
-            };
+            });
 
-            return Ok(dto);
+            return Ok(result);
         }
-
         [HttpPatch("Update/{adid}")]
         public async Task<IActionResult> UpdateUserByADID(string adid, [FromBody] UpdateUserDTO dto)
         {

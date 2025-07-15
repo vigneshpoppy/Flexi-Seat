@@ -35,12 +35,12 @@ namespace FlexiSeat.Controllers
     public async Task<IActionResult> SMS(
         [FromBody] string msg)
     {
-            var messagingResponse = new MessagingResponse();
-            messagingResponse.Message("The copy cat says: " +msg);
+            //var messagingResponse = new MessagingResponse();
+            //messagingResponse.Message("The copy cat says: " +msg);
     
             return Ok();
     }
 }
   }
 
-}
+
