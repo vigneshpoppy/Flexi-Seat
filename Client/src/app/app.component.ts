@@ -205,10 +205,10 @@ this.reservationService.bulkReservation(payload).subscribe({
     })
 }
 
-  myTeam = [
-  { adid: 'YJJYJJ', name: 'Vignesh' },
-  { adid: 'FGGFGG', name: 'Sharan' },
-  { adid: 'YHHYHH', name: 'Arun' },
+   myTeam = [
+  // { adid: 'YJJYJJ', name: 'Vignesh' },
+  // { adid: 'FGGFGG', name: 'Sharan' },
+  // { adid: 'YHHYHH', name: 'Arun' },
  
   ];
 

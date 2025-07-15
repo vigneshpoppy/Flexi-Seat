@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -7,8 +7,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AzureAIService {
-
-  private localBaseUrl=`${environment.apiUrl}/api/Bot/`
+//http://localhost:39752/api/AI/bot?adid=YJJ8BQQ
+  private localBaseUrl=`${environment.apiUrl}/api/AI/bot`
   private apiUrl = 'https://flexiseatai.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2025-01-01-preview';
   private apiKey = "";
 
@@ -36,7 +36,23 @@ export class AzureAIService {
     }
   }
 
-  async OpenAICall(userid:string,userinput:string): Promise<Observable<any>> {
-        return this.http.post(`${this.localBaseUrl}`, userinput);
-      }
+  //  OpenAICall(userid:string,userinput:string): Observable<any>  {
+  //       return this.http.post(`${this.localBaseUrl}${userid}`, userinput);
+  //     }
+
+      OpenAICall(userid: string, userinput: string): Observable<any> {
+        var httpParams = new HttpParams()
+        .set('adid', userid)
+        .set('prompt', userinput);
+        // const params = new HttpParams({ fromObject: httpParams });
+  const url = `${this.localBaseUrl}?adid=${userid}&prompt=${userinput}`;
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+  const body = {
+    message: userinput,
+    adid: userid
+  };
+
+  return this.http.get(url);
+}
 }

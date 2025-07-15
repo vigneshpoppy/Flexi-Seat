@@ -2,20 +2,24 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { Seat } from '../Models/seat';
 import { NotificationService } from '../Service/notification.service';
 import { individualSeatReservation, UserSeatReservation } from '../Models/reservation';
+import { UserService } from '../Service/user.service';
 
 @Component({
   selector: 'app-seat-map',
   templateUrl: './seat-map.component.html',
   styleUrls: ['./seat-map.component.css']
 })
+
+
 export class SeatMapComponent implements OnChanges,OnInit {
 
-  constructor(private notify:NotificationService){
+  constructor(private notify:NotificationService,private userService:UserService){
 
   }
   userAdID:any;
   ngOnInit(): void {
    this.userAdID=localStorage.getItem('userid')?.toUpperCase()
+   this.fetchTeamMembers();
   }
   @Input() seatRows: Seat[] = []; // ⬅️ Data from parent
   @Output() seatSelected = new EventEmitter<Seat>(); // ⬅️ Send back selected seat
@@ -32,7 +36,7 @@ export class SeatMapComponent implements OnChanges,OnInit {
  showPopup = false;
 selectedSeat: Seat | null = null;
   
-
+myTeam:Employee1[]=[];
   ngOnChanges(changes: SimpleChanges) {
     if (changes['seatRows']) {
       this.chunkedSeatRows=[];
@@ -40,6 +44,19 @@ selectedSeat: Seat | null = null;
     }
   }
 
+fetchTeamMembers(){
+this.userService.getTeamMembersByManagerID(this.userAdID).subscribe({
+    next:result=>{
+     // this.allSeatData=result;
+     this.myTeam=result;
+console.log(this.myTeam);
+    },
+    error:err=>{
+      console.log(err);
+    }
+    
+  })
+}
 
   createChunks(){
     console.log("Data here "+this.seatRows);
@@ -121,4 +138,10 @@ closeConfirmation() {
 
 
 
+}
+
+export interface Employee1 {
+  adid: string;
+  name: string;
+  selected?: boolean;
 }
