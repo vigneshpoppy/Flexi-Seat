@@ -32,7 +32,7 @@ const routes: Routes = [
     data: { roles: ['admin'] }},
   { path: 'employeemanagement', component: EmployeeAdminComponent , canActivate: [authGuard],
     data: { roles: ['admin','supervisor-1','supervisor-2'] }},
-  { path: 'seat', component: AppComponent },
+  { path: 'seat', component: AppComponent, data:{roles:[]} },
   { path: 'checkin-client', component: CheckinClientComponent },
   { path: 'zone-viewer', component: ZoneViewerComponent },
   { path: 'dashboard', component: AdminDashboardComponent },
