@@ -50,3 +50,4 @@ obj/
 
 #other files
 nuget.config
+/Core/FlexiSeat/FlexiSeat/Properties/PublishProfiles

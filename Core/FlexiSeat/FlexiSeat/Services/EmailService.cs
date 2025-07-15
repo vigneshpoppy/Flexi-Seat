@@ -4,46 +4,64 @@ using System.Net;
 using FlexiSeat.Services.Interfaces;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
+using Azure.Communication.Email;
+using Azure;
 
 namespace FlexiSeat.Services
 {
     public class EmailService : IEmailService
     {
-    private readonly EmailSettings _settings;
+        private readonly EmailSettings _settings;
+        private readonly EmailClient _emailClient;
 
-    public EmailService(IOptions<EmailSettings> options)
-    {
-      _settings = options.Value;
-    }
-
-    public async Task<bool> SendEmailAsync(string toEmail, string subject, string body, bool isHtml = true)
-    {
-        try
+        public EmailService(IOptions<EmailSettings> options)
         {
-            using var message = new MailMessage
-            {
-              From = new MailAddress(_settings.FromEmail),
-              Subject = subject,
-              Body = body,
-              IsBodyHtml = isHtml
-            };
-
-            message.To.Add(toEmail);
-
-            using var client = new SmtpClient(_settings.SmtpServer, _settings.SmtpPort)
-            {
-              Credentials = new NetworkCredential(_settings.SmtpUser, _settings.SmtpPassword),
-              EnableSsl = true
-            };
-
-            await client.SendMailAsync(message);
-            return true;
+            _settings = options.Value;
+            _emailClient = new EmailClient(_settings.ConnectionString);
         }
-        catch (Exception ex)
+
+        public async Task<bool> SendEmailAsync(string toEmails, string ccEmails, string subject, string body, bool isHtml = true)
         {
-            Console.WriteLine($"Email send failed: {ex.Message}");
-            return false;
+            try
+            {
+                var content = new EmailContent(subject)
+                {
+                    Html = isHtml ? body : null,
+                    PlainText = !isHtml ? body : null
+                };
+
+                // Parse comma-separated toEmails into EmailAddress list
+                var toRecipients = toEmails?
+                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(email => new EmailAddress(email.Trim()))
+                    .ToList() ?? new List<EmailAddress>();
+
+                // Parse comma-separated ccEmails into EmailAddress list
+                var ccRecipients = ccEmails?
+                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(email => new EmailAddress(email.Trim()))
+                    .ToList() ?? new List<EmailAddress>();
+
+                if (!toRecipients.Any())
+                {
+                    Console.WriteLine("No 'To' recipients specified.");
+                    return false;
+                }
+
+                var recipients = new EmailRecipients(toRecipients, ccRecipients);
+
+                var emailMessage = new EmailMessage(_settings.FromEmail, recipients, content);
+
+                EmailSendOperation sendOperation = await _emailClient.SendAsync(WaitUntil.Completed, emailMessage);
+
+                //Console.WriteLine($"Email sent. Message ID: {sendOperation.Id}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                //Console.WriteLine($"Email send failed: {ex.Message}");
+                return false;
+            }
         }
     }
-  }
 }

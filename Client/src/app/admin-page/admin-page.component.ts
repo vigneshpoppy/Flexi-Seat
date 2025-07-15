@@ -6,10 +6,9 @@ import { Router } from '@angular/router';
   templateUrl: './admin-page.component.html',
   styleUrls: ['./admin-page.component.css']
 })
-export class AdminPageComponent implements OnInit{
 
-  
-
+export class AdminPageComponent implements OnInit {
+  role: string = '';
 
 goToEmployeeManagement() {
 this.router.navigate(['/employeemanagement']);
@@ -17,7 +16,7 @@ this.router.navigate(['/employeemanagement']);
 
   constructor(private router: Router) {}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.role = localStorage.getItem('roles') || '';
   }
 
   goToSeatManagement() {

@@ -47,10 +47,14 @@ namespace FlexiSeat.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.NameId, appUser.ADID.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, appUser.Name),
-                new Claim("Lead ADID", appUser!.LeadADID!.ToString()),
-                new Claim("Manager ADID", appUser!.ManagerADID!.ToString()),
-                new Claim("Role", role!.Name)
+                new Claim("Role", role!.Name)                
             };
+
+            if(!string.IsNullOrWhiteSpace(Convert.ToString(appUser!.ManagerADID)))
+            {
+                //var managerClaim = new Claim("Manager ADID", appUser!.Manager);
+                claims.Add(new Claim("Manager ADID", Convert.ToString(appUser!.ManagerADID)));
+            }
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
@@ -88,13 +92,13 @@ namespace FlexiSeat.Controllers
                 return Unauthorized(new { message = "Old password is incorrect." });
             }
 
-            /*Need to remove - writing pwd to file logic - only for test purpose*/
-            var logFilePath = "Log.txt";
+            ///*Need to remove - writing pwd to file logic - only for test purpose*/
+            //var logFilePath = "Log.txt";
 
-            using (var writer = new StreamWriter(logFilePath, append: true))
-            {
-                writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | ADID: {normalizedAdid} | Password: {dto.NewPassword}");
-            }
+            //using (var writer = new StreamWriter(logFilePath, append: true))
+            //{
+            //    writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | ADID: {normalizedAdid} | Password: {dto.NewPassword}");
+            //}
 
             //Hash new password & update
             userLogin.PasswordHash = PasswordHelper.HashPassword(dto.NewPassword);
@@ -120,13 +124,13 @@ namespace FlexiSeat.Controllers
             // Generate a new temporary password (for example: 8 random characters)
             string tempPassword = PasswordHelper.Generate();
 
-            /*Need to remove - writing pwd to file logic - only for test purpose*/
-            var logFilePath = "Log.txt";
+            ///*Need to remove - writing pwd to file logic - only for test purpose*/
+            //var logFilePath = "Log.txt";
 
-            using (var writer = new StreamWriter(logFilePath, append: true))
-            {
-                writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | ADID: {normalizedAdid} | Password: {tempPassword}");
-            }
+            //using (var writer = new StreamWriter(logFilePath, append: true))
+            //{
+            //    writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | ADID: {normalizedAdid} | Password: {tempPassword}");
+            //}
 
             // Hash the temporary password
             userLogin.PasswordHash = PasswordHelper.HashPassword(tempPassword);
@@ -134,11 +138,10 @@ namespace FlexiSeat.Controllers
             // Save changes
             await _context.SaveChangesAsync();
 
-            /*Need to enable once email server creds are avlbl
-              var toEmail = userLogin.ADID + "@yourdomain.com";
+              var toEmail = userLogin.ADID + "@ups.com";
 
-              await _emailService.SendEmailAsync(toEmail, "UPS Flexiseat - Temporary Password", $"Your new temporary password is: {tempPassword}");
-            */
+            await _emailService.SendEmailAsync(toEmail,"", "UPS Flexiseat - Temporary Password", $"Your new temporary password is: {tempPassword}");
+
 
             return Ok(new
             {

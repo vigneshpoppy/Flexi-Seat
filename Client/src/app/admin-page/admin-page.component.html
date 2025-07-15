@@ -2,19 +2,19 @@
   <h2>Admin Dashboard</h2>
 
   <div class="button-group">
-    <button class="nav-button" (click)="goToSeatManagement()">
+    <button *ngIf = "role == 'admin'" class="nav-button" (click)="goToSeatManagement()">
       💺 Seat Management
     </button>
-    <button class="nav-button" (click)="goToEmployeeManagement()">
+    <button *ngIf = "role == 'admin' || role == 'supervisor-2'" class="nav-button" (click)="goToEmployeeManagement()">
       👤 Employee Management
     </button>
-    <button class="nav-button" (click)="goToRoleManagement()">
+    <button *ngIf = "role == 'admin'" class="nav-button" (click)="goToRoleManagement()">
       🛠 Role Management
     </button>
-    <button class="nav-button" (click)="goToZoneManagement()">
+    <button *ngIf = "role == 'admin'" class="nav-button" (click)="goToZoneManagement()">
       🌐 Zone Management
     </button>
-       <button class="nav-button" (click)="goToDashboard()">
+       <button *ngIf = "role == 'admin' || role == 'supervisor-2'" class="nav-button" (click)="goToDashboard()">
       Dashboard
     </button>
   </div>

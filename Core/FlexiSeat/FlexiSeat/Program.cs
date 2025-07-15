@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using System;
+using Microsoft.AspNetCore.SpaServices;
 
 var builder = WebApplication.CreateBuilder(args);
 var secretString = builder.Configuration.GetValue<string>("TokenKey");
@@ -80,15 +81,32 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddAuthorization();
+// Serve static files
+builder.Services.AddSpaStaticFiles(configuration =>
+{
+    configuration.RootPath = "wwwroot"; // Or wherever your Angular build output is
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseStaticFiles();
+app.UseSpaStaticFiles();
+
+
+// Redirect unknown paths to Angular
+app.UseSpa(spa =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    spa.Options.SourcePath = "wwwroot"; // Or wherever your Angular project is
+
+    //if (app.Environment.IsDevelopment())
+    //{
+    //    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+    //}
+});
 
 using (var scope = app.Services.CreateScope())
 {
