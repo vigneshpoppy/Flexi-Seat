@@ -1,0 +1,24 @@
+<!-- Floating Chat Icon -->
+<div class="chat-icon" (click)="toggleChat()">
+    <div class="chat-label">Ask me...</div>
+  💬
+</div>
+
+<!-- Chat Window -->
+<div class="chat-window" [class.open]="isOpen">
+  <div class="chat-header">
+    <span>🤖 AI Chatbot</span>
+    <button class="close-btn" (click)="toggleChat()">×</button>
+  </div>
+
+  <div class="chat-messages" #chatContainer>
+    <div *ngFor="let msg of messages" [ngClass]="msg.sender" class="chat-bubble">
+      {{ msg.text }}
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <input [(ngModel)]="userInput" (keydown.enter)="sendMessage()" placeholder="Ask something..." />
+    <button (click)="sendMessage()">➤</button>
+  </div>
+</div>
