@@ -31,6 +31,16 @@ namespace FlexiSeat.Controllers
       var resp = await _seatService.ReserveAsync(req.PhoneNumber, req.SeatId, req.ReservedDate);
       return resp.IsSuccess ? Ok(resp) : BadRequest(resp);    
     }
+    [HttpPost("sms")]
+    public async Task<IActionResult> SMS(
+        [FromBody] string msg)
+    {
+            var messagingResponse = new MessagingResponse();
+            messagingResponse.Message("The copy cat says: " +msg);
+    
+            return Ok();
+    }
+}
   }
 
 }
