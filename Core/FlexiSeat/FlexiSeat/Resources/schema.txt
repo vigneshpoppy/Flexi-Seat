@@ -1,0 +1,198 @@
+﻿USE [FlexiSeatsDb]
+GO
+/****** Object:  Table [dbo].[Employees]    Script Date: 7/15/2025 5:21:47 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Employees](
+	[EmployeeADID] [nvarchar](20) NOT NULL,
+	[EmployeeNo] [bigint] NOT NULL,
+	[PhoneNumber] [nvarchar](20) NOT NULL,
+	[InsertedOn] [datetime2](7) NOT NULL,
+	[UpdatedOn] [datetime2](7) NULL,
+CONSTRAINT [PK_Employees] PRIMARY KEY CLUSTERED 
+(
+	[EmployeeADID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[OrgSeatPools]    Script Date: 7/15/2025 5:21:47 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OrgSeatPools](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[ZoneId] [int] NOT NULL,
+	[ManagerADID] [nvarchar](20) NULL,
+	[SeatsAllotted] [int] NOT NULL,
+CONSTRAINT [PK_OrgSeatPools] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Reservations]    Script Date: 7/15/2025 5:21:47 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Reservations](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[UserADID] [nvarchar](20) NOT NULL,
+	[SeatID] [int] NOT NULL,
+	[ReservedDate] [date] NOT NULL,
+	[CheckInTime] [nvarchar](5) NULL,
+	[CheckOutTime] [nvarchar](5) NULL,
+	[InsertedOn] [datetime2](7) NOT NULL,
+	[UpdatedOn] [datetime2](7) NULL,
+	[IsNotified] [bit] NOT NULL,
+	[ReservedByADID] [nvarchar](20) NOT NULL,
+	[Status] [nvarchar](max) NOT NULL,
+CONSTRAINT [PK_Reservations] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Roles]    Script Date: 7/15/2025 5:21:47 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Roles](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[Description] [nvarchar](100) NULL,
+	[IsActive] [bit] NOT NULL,
+CONSTRAINT [PK_Roles] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Seats]    Script Date: 7/15/2025 5:21:47 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Seats](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Number] [nvarchar](20) NOT NULL,
+	[ZoneId] [int] NOT NULL,
+	[IsActive] [bit] NOT NULL,
+CONSTRAINT [PK_Seats] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserLogins]    Script Date: 7/15/2025 5:21:47 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserLogins](
+	[ADID] [nvarchar](20) NOT NULL,
+	[PasswordHash] [nvarchar](max) NOT NULL,
+CONSTRAINT [PK_UserLogins] PRIMARY KEY CLUSTERED 
+(
+	[ADID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 7/15/2025 5:21:47 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[ADID] [nvarchar](20) NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
+	[Designation] [nvarchar](120) NULL,
+	[BadgeId] [nvarchar](50) NOT NULL,
+	[RoleId] [int] NOT NULL,
+	[LeadADID] [nvarchar](20) NULL,
+	[ManagerADID] [nvarchar](20) NULL,
+CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[ADID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Zones]    Script Date: 7/15/2025 5:21:47 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Zones](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[Description] [nvarchar](100) NULL,
+	[IsActive] [bit] NOT NULL,
+CONSTRAINT [PK_Zones] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Reservations] ADD  DEFAULT (N'') FOR [Status]
+GO
+ALTER TABLE [dbo].[Roles] ADD  DEFAULT (CONVERT([bit],(0))) FOR [IsActive]
+GO
+ALTER TABLE [dbo].[OrgSeatPools]  WITH CHECK ADD  CONSTRAINT [FK_OrgSeatPools_Users_ManagerADID] FOREIGN KEY([ManagerADID])
+REFERENCES [dbo].[Users] ([ADID])
+GO
+ALTER TABLE [dbo].[OrgSeatPools] CHECK CONSTRAINT [FK_OrgSeatPools_Users_ManagerADID]
+GO
+ALTER TABLE [dbo].[OrgSeatPools]  WITH CHECK ADD  CONSTRAINT [FK_OrgSeatPools_Zones_ZoneId] FOREIGN KEY([ZoneId])
+REFERENCES [dbo].[Zones] ([ID])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[OrgSeatPools] CHECK CONSTRAINT [FK_OrgSeatPools_Zones_ZoneId]
+GO
+ALTER TABLE [dbo].[Reservations]  WITH CHECK ADD  CONSTRAINT [FK_Reservations_Employees_ReservedByADID] FOREIGN KEY([ReservedByADID])
+REFERENCES [dbo].[Employees] ([EmployeeADID])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Reservations] CHECK CONSTRAINT [FK_Reservations_Employees_ReservedByADID]
+GO
+ALTER TABLE [dbo].[Reservations]  WITH CHECK ADD  CONSTRAINT [FK_Reservations_Seats_SeatID] FOREIGN KEY([SeatID])
+REFERENCES [dbo].[Seats] ([ID])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Reservations] CHECK CONSTRAINT [FK_Reservations_Seats_SeatID]
+GO
+ALTER TABLE [dbo].[Reservations]  WITH CHECK ADD  CONSTRAINT [FK_Reservations_Users_ReservedByADID] FOREIGN KEY([ReservedByADID])
+REFERENCES [dbo].[Users] ([ADID])
+GO
+ALTER TABLE [dbo].[Reservations] CHECK CONSTRAINT [FK_Reservations_Users_ReservedByADID]
+GO
+ALTER TABLE [dbo].[Reservations]  WITH CHECK ADD  CONSTRAINT [FK_Reservations_Users_UserADID] FOREIGN KEY([UserADID])
+REFERENCES [dbo].[Users] ([ADID])
+GO
+ALTER TABLE [dbo].[Reservations] CHECK CONSTRAINT [FK_Reservations_Users_UserADID]
+GO
+ALTER TABLE [dbo].[Seats]  WITH CHECK ADD  CONSTRAINT [FK_Seats_Zones_ZoneId] FOREIGN KEY([ZoneId])
+REFERENCES [dbo].[Zones] ([ID])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Seats] CHECK CONSTRAINT [FK_Seats_Zones_ZoneId]
+GO
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [FK_Users_Roles_RoleId] FOREIGN KEY([RoleId])
+REFERENCES [dbo].[Roles] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_Users_Roles_RoleId]
+GO
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [FK_Users_Users_LeadADID] FOREIGN KEY([LeadADID])
+REFERENCES [dbo].[Users] ([ADID])
+GO
+ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_Users_Users_LeadADID]
+GO
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [FK_Users_Users_ManagerADID] FOREIGN KEY([ManagerADID])
+REFERENCES [dbo].[Users] ([ADID])
+GO
+ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_Users_Users_ManagerADID]
+GO
