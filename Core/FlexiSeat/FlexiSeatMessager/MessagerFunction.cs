@@ -35,9 +35,11 @@ namespace FlexiSeatMessager
             string toNumber = _config["TwilioToNumber"];
             string contentSid = _config["TwilioContentSid"];
 
-            string seatNumber = "CS381B";
-              //  _context.Employees
-              //.Where(r => r.PhoneNumber.Equals(toNumber)).FirstOrDefault().EmployeeADID;
+            var employee = _context.Employees
+                .FirstOrDefault(r => r.PhoneNumber.Equals(toNumber));
+
+            string seatNumber = employee?.EmployeeADID ?? "Unknown";
+
             TwilioClient.Init(accountSid, authToken);
 
             var tomorrow = DateTime.Today.AddDays(1).ToString("dd MMM yyyy");
@@ -60,5 +62,6 @@ namespace FlexiSeatMessager
                 _logger.LogInformation($"Next schedule at: {myTimer.ScheduleStatus.Next}");
             }
         }
+
     }
 }
