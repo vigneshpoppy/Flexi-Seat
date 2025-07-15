@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { individualSeatReservation } from '../Models/reservation';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class ReservationService {
 
   constructor(private http:HttpClient ) {}
   
-    localBaseUrl="http://localhost:39752/api/Reservations/"
+    localBaseUrl=`${environment.apiUrl}/api/Reservations/`
   
 
     getSeatsbyZone(zoneId:string,date:string): Observable<any> {

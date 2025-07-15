@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap, map } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 interface LoginRequest {
   adid: string;
@@ -10,6 +11,10 @@ interface LoginRequest {
 
 interface LoginResponse {
   token: string;
+}
+
+interface ResetResponse {
+  message: string;
 }
 
 @Injectable({
@@ -23,7 +28,21 @@ export class AuthServiceService {
 
  login(username: string, password: string): Observable<LoginResponse> {
   const payload = { adid: username, password: password };
-  return this.http.post<LoginResponse>('http://localhost:39752/api/Login/Login', payload);
+  return this.http.post<LoginResponse>(`${environment.apiUrl}/api/Login/Login`, payload);
+}
+
+ ResetPassword(username: string): Observable<ResetResponse> {
+  const payload = { adid: username};
+  return this.http.post<ResetResponse>('http://localhost:39752/api/Login/ForgotPassword', payload);
+}
+
+changePassword(adid: string, oldPassword: string, newPassword: string): Observable<ResetResponse> {
+  const payload = {
+    adid: adid,
+    oldpassword: oldPassword,
+    newpassword: newPassword
+  };
+  return this.http.post<ResetResponse>('http://localhost:39752/api/Login/ChangePassword', payload);
 }
 
   /** Local‑storage helpers */
@@ -39,8 +58,8 @@ export class AuthServiceService {
     return localStorage.getItem(this.tokenKey);
   }
   getRoles(): string {
-    return JSON.parse(localStorage.getItem(this.roleKey) || '');
-  }
+  return localStorage.getItem(this.roleKey) || '';
+}
 
   /** Session helpers */
   logout(): void {

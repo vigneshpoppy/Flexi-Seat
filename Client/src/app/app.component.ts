@@ -7,6 +7,7 @@ import { ReservationService } from './Service/reservation.service';
 import { UserService } from './Service/user.service';
 import { individualSeatReservation, UserSeatReservation } from './Models/reservation';
 import { SeatMapComponent } from './seat-map/seat-map.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,7 +17,9 @@ import { SeatMapComponent } from './seat-map/seat-map.component';
 })
 export class AppComponent  implements OnInit{
 
-constructor(private orgpoolService:OrgpoolService,private userService:UserService, private reservationService:ReservationService){}
+constructor(private orgpoolService:OrgpoolService,private userService:UserService, private reservationService:ReservationService,
+  private router: Router
+){}
   title = 'FlexiSeatBooking';
 
   @ViewChild(SeatMapComponent) childComponent!: SeatMapComponent;
@@ -80,7 +83,7 @@ console.log(this.filteredSeatData);
 }
 
 fetchTeamMembers(){
-this.userService.getTeamMembersByManagerID(this.managerAdid).subscribe({
+this.userService.getTeamMembersByManagerID(this.userid).subscribe({
     next:result=>{
      // this.allSeatData=result;
      this.myTeam=result;
@@ -306,5 +309,10 @@ this.seatData=[
 
   //   this.seatData = mockSeatMap;
   // }
+
+  logout(): void {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 }
 

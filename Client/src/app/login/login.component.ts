@@ -2,7 +2,12 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthServiceService } from '../Service/auth-service.service';
 import { jwtDecode } from 'jwt-decode';
+<<<<<<< HEAD
 //import { JwtHelperService } from '@auth0/angular-jwt';
+=======
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { NotificationService } from '../Service/notification.service';
+>>>>>>> e70bc044b443026ccc7d5b2c716bab11efc345e6
 
 @Component({
   selector: 'app-login',
@@ -14,11 +19,11 @@ export class LoginComponent {
   password = '';
   error   = '';
 
-  constructor(private auth: AuthServiceService, private router: Router) {}
+  constructor(private auth: AuthServiceService, private router: Router,private notify:NotificationService) {}
 
   login(): void {
     if (!this.username.trim() || !this.password) {
-      this.error = 'Please enter username and password';
+      this.notify.showInfo('Please enter username and password');
       return;
     }
 
@@ -46,7 +51,7 @@ export class LoginComponent {
     },
     error: err => {
       console.error('Login error:', err);
-      this.error = 'Invalid username or password';
+      this.notify.showError('Invalid username or password');
     }
   });
 }
