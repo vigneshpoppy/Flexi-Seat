@@ -84,7 +84,7 @@ console.log(this.filteredSeatData);
 }
 
 fetchTeamMembers(){
-this.userService.getTeamMembersByManagerID(this.managerAdid).subscribe({
+this.userService.getTeamMembersByManagerID(this.userid).subscribe({
     next:result=>{
      // this.allSeatData=result;
      this.myTeam=result;
@@ -205,10 +205,10 @@ this.reservationService.bulkReservation(payload).subscribe({
     })
 }
 
-  myTeam = [
-  { adid: 'YJJYJJ', name: 'Vignesh' },
-  { adid: 'FGGFGG', name: 'Sharan' },
-  { adid: 'YHHYHH', name: 'Arun' },
+   myTeam = [
+  // { adid: 'YJJYJJ', name: 'Vignesh' },
+  // { adid: 'FGGFGG', name: 'Sharan' },
+  // { adid: 'YHHYHH', name: 'Arun' },
  
   ];
 

@@ -35,8 +35,8 @@ export class LoginComponent {
           localStorage.setItem('roles',userRole);
           localStorage.setItem('manageradid',managerId);
           localStorage.setItem('userid',userId);
-          const userDetails: string[] = ['admin', 'supervisor-1', 'supervisor-2'];
-          if (userDetails.includes(userRole)) {
+          //const userDetails: string[] = ['admin', 'supervisor-1', 'supervisor-2'];
+          if (userRole=='admin') {
             this.router.navigate(['/admin']);
           } else {
             this.router.navigate(['/seat']);

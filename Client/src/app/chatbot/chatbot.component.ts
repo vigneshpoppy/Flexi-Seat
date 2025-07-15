@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AzureAIService } from '../Service/azure.service';
+import { error } from 'node:console';
 
 
 @Component({
@@ -41,11 +42,12 @@ console.log(lastUserMessage?.text);
 
     if (lastUserMessage?.text) {
   //const botReply = await this.azureservice.askAzureAI(lastUserMessage.text.toString());
-  const botReply= (await this.azureservice.OpenAICall(this.userid,lastUserMessage.text.toString())).subscribe({
-    next:result=>{
+  const botReply= ( this.azureservice.OpenAICall(this.userid,lastUserMessage.text.toString())).subscribe({
+    next:(result: string)=>{
   this.messages.push({ sender: 'bot', text: result });
     },error:err=>{
-      this.messages.push({ sender: 'bot', text: "error Please reach out technical Team." });
+      console.log(err)
+      this.messages.push({ sender: 'bot', text: err.error.text });
     }
   });
 

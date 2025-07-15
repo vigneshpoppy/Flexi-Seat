@@ -23,7 +23,7 @@
   *ngIf="filteredSeatData"
     [seatRows]="filteredSeatData"
     (seatSelected)="onSeatSelected($event)"
-     (individualSelected)="individualseatSelected($event)"
+    (individualSelected)="individualseatSelected($event)"
     [isSupervisor]="loggedInUserRole === 'supervisor'"
     [teamMembers]="myTeam"
     (bulkBooked)="onBulkBooking($event)"
