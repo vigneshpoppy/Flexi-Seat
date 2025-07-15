@@ -47,7 +47,6 @@ constructor(private orgpoolService:OrgpoolService,private notify:NotificationSer
     this.today = now.toISOString().split('T')[0];
     this.managerAdid= localStorage.getItem("manageradid")?.toUpperCase();
     this.fetchManagerPool();
-    this.fetchTeamMembers();
    // this.fetchseats();
 
   }
@@ -61,6 +60,7 @@ fetchManagerPool(){
      this.managerPoolData=result;
     var res= this.formatZonesSummary(this.managerPoolData);
  console.log(res);
+    this.fetchTeamMembers();
     },
     error:err=>{
       console.log(err);
@@ -84,7 +84,7 @@ console.log(this.filteredSeatData);
 }
 
 fetchTeamMembers(){
-this.userService.getTeamMembersByManagerID(this.userid).subscribe({
+this.userService.getTeamMembersByManagerID(this.managerAdid).subscribe({
     next:result=>{
      // this.allSeatData=result;
      this.myTeam=result;
