@@ -1,4 +1,8 @@
 <app-notification #notifier></app-notification>
+<div class="user-info" *ngIf="!isLoginPage">
+  <button (click)="logout()">Logout</button>
+</div>
+
 <router-outlet>
 
 </router-outlet>

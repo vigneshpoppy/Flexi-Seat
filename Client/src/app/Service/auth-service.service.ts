@@ -13,6 +13,10 @@ interface LoginResponse {
   token: string;
 }
 
+interface ResetResponse {
+  message: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +29,20 @@ export class AuthServiceService {
  login(username: string, password: string): Observable<LoginResponse> {
   const payload = { adid: username, password: password };
   return this.http.post<LoginResponse>(`${environment.apiUrl}/api/Login/Login`, payload);
+}
+
+ ResetPassword(username: string): Observable<ResetResponse> {
+  const payload = { adid: username};
+  return this.http.post<ResetResponse>('http://localhost:39752/api/Login/ForgotPassword', payload);
+}
+
+changePassword(adid: string, oldPassword: string, newPassword: string): Observable<ResetResponse> {
+  const payload = {
+    adid: adid,
+    oldpassword: oldPassword,
+    newpassword: newPassword
+  };
+  return this.http.post<ResetResponse>('http://localhost:39752/api/Login/ChangePassword', payload);
 }
 
   /** Local‑storage helpers */
@@ -40,8 +58,8 @@ export class AuthServiceService {
     return localStorage.getItem(this.tokenKey);
   }
   getRoles(): string {
-    return localStorage.getItem(this.roleKey) || '';
-  }
+  return localStorage.getItem(this.roleKey) || '';
+}
 
   /** Session helpers */
   logout(): void {

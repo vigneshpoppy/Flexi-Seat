@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthServiceService } from '../Service/auth-service.service';
+import { NotificationService } from '../Service/notification.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -11,23 +13,32 @@ export class ResetPasswordComponent {
   error = '';
   success = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthServiceService,private notify:NotificationService
+  ) {}
 
   resetPassword() {
     this.error = '';
     this.success = '';
 
     if (!this.adid.trim()) {
-      this.error = 'ADID is required';
+      this.notify.showError('ADID is required');
       return;
     }
 
-    // ✅ Simulated reset logic
-    this.success = 'Password reset request sent. Redirecting to login...';
-
-    setTimeout(() => {
-      this.router.navigate(['/login']);
-    }, 2000);
+    this.authService.ResetPassword(this.adid).subscribe({
+      next: (response) => {
+        this.notify.showSuccess(response.message);
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
+      },
+      error: (err) => {
+        console.error('Reset error:', err);
+        this.notify.showError(err?.error?.message);
+      }
+    });
   }
 
   goToLogin() {
