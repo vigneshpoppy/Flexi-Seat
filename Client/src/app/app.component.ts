@@ -8,6 +8,7 @@ import { UserService } from './Service/user.service';
 import { individualSeatReservation, UserSeatReservation } from './Models/reservation';
 import { SeatMapComponent } from './seat-map/seat-map.component';
 import { Router } from '@angular/router';
+import { NotificationService } from './Service/notification.service';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent  implements OnInit{
 
-constructor(private orgpoolService:OrgpoolService,private userService:UserService, private reservationService:ReservationService,
+constructor(private orgpoolService:OrgpoolService,private notify:NotificationService,private userService:UserService, private reservationService:ReservationService,
   private router: Router
 ){}
   title = 'FlexiSeatBooking';
@@ -143,8 +144,9 @@ fetchSeatDataForDate(date: string) {
     };
     this.reservationService.individualReservation(payload).subscribe({
       next:res=>{
-        
+        this.notify.showSuccess("Booking Successful-Seat :"+seat.number)
         console.log(res);
+        
             },
             error:err=>{
               console.log(err);
@@ -191,7 +193,7 @@ fetchSeatDataForDate(date: string) {
 
 this.reservationService.bulkReservation(payload).subscribe({
       next:res=>{
-        
+        this.notify.showSuccess("Booking Successful-Seat")
         console.log(res);
         const todayStr = new Date().toISOString().split('T')[0];
       //  this.selectedDate=todayStr;

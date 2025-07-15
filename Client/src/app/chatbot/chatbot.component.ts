@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AzureAIService } from '../Service/azure.service';
 
 
@@ -7,8 +7,13 @@ import { AzureAIService } from '../Service/azure.service';
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.css']
 })
-export class ChatbotComponent {
+export class ChatbotComponent implements OnInit {
+
+  userid:string=''
   constructor(private azureservice:AzureAIService){}
+  ngOnInit(): void {
+    this.userid=localStorage.getItem('userid')?.toUpperCase()||"";
+  }
   isOpen = false;
   messages: { sender: 'user' | 'bot', text: string }[] = [];
   userInput = '';
@@ -35,8 +40,15 @@ export class ChatbotComponent {
 console.log(lastUserMessage?.text);
 
     if (lastUserMessage?.text) {
-  const botReply = await this.azureservice.askAzureAI(lastUserMessage.text.toString());
-  this.messages.push({ sender: 'bot', text: botReply });
+  //const botReply = await this.azureservice.askAzureAI(lastUserMessage.text.toString());
+  const botReply= (await this.azureservice.OpenAICall(this.userid,lastUserMessage.text.toString())).subscribe({
+    next:result=>{
+  this.messages.push({ sender: 'bot', text: result });
+    },error:err=>{
+      this.messages.push({ sender: 'bot', text: "error Please reach out technical Team." });
+    }
+  });
+
 }
   //   this.askAzureAI(this.userInput).then(response => {
   // this.messages.push({ sender: 'bot', text: response });

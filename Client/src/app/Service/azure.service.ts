@@ -1,10 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AzureAIService {
+
+  private localBaseUrl=`${environment.apiUrl}/api/Bot/`
   private apiUrl = 'https://flexiseatai.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2025-01-01-preview';
   private apiKey = "";
 
@@ -31,4 +35,8 @@ export class AzureAIService {
       return "Sorry, I couldn't process that.";
     }
   }
+
+  async OpenAICall(userid:string,userinput:string): Promise<Observable<any>> {
+        return this.http.post(`${this.localBaseUrl}`, userinput);
+      }
 }
